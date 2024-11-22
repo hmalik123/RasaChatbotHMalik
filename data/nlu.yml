@@ -1,0 +1,711 @@
+version: "3.0"
+nlu:
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - hi
+    - good morning
+    - good evening
+    - start
+    - whats up
+    - Hey SecBot
+    - Hey SecBot!
+- intent: goodbye
+  examples: |
+    - bye
+    - goodbye
+    - see you around
+    - see you later
+    - stop
+    - finish
+    - thanks
+    - done
+    - thank you
+    - Thank you very much
+- intent: affirm
+  examples: |
+    - yes
+    - indeed
+    - of course
+    - that sounds good
+    - correct
+    - right
+    - exactly
+    - ok
+    - fine
+    - great
+    - alright
+    - yees
+    - i do
+    - Yes
+    - sure
+    - Sure
+- intent: deny
+  examples: |
+    - no
+    - i cant
+    - I don't think so
+    - not sure
+    - no way
+    - not really
+    - I don't know
+    - No
+    - no way i can tell
+    - nope
+    - I meant no
+    - I don't have further symptoms to describe
+    - i have no more symptoms
+    - i dont have more symptoms
+    - no, I can't
+    - no, i dont have more problems to describe
+    - i don't know either
+- intent: explain
+  examples: |
+    - Can you explain that?
+    - Why do you need this information?
+    - I dont see why should I tell you that
+    - can you elaborate on this?
+    - Why?
+    - why
+    - Why should I do that?
+    - Why should i do that
+    - why should I do that?
+- intent: stop
+  examples: |
+    - stop
+    - Stop
+    - stop!
+    - stopp
+    - SToop
+    - stop it
+    - i want to quit
+- intent: yet_more_information
+  examples: |
+    - I do have more information
+    - I have more information after all
+    - I still have more information
+    - I have more information anyway
+    - I still have symptoms anyway
+    - I do have more symptoms
+    - I would still have a few symptoms
+    - Can i add some more information
+    - can i add more symptoms
+    - let me add more information
+    - let me provide more symptoms
+    - Can I add more symptoms?
+    - can I add more symptoms
+    - add more symptoms
+    - can I add more symptoms?
+    - can i add more symptoms?
+- intent: attack_notification
+  examples: |
+    - I am under attack
+    - I need help
+    - I need your help
+    - I think I'm suffering an attack
+    - I'm being attacked
+    - Can you help me
+    - Can you help me again?
+    - can i try again?
+    - in need your help
+    - i need your help
+    - can you help me again
+- intent: attack_notif_name
+  examples: |
+    - I am suffering a [Phishing](attack_name)
+    - I am under a [DDoS](attack_name)
+    - I detected a [Ransomware](attack_name) in my [Windows](target)
+    - I need a protection against [DdoS](attack_name)
+    - My [Firewall](target) is under a [ddoS](attack_name)
+    - I am under a [DDoS](attack_name) attack
+    - Give me a protection against [SQL injection](attack_name)
+    - I am under a [Man in the middle](attack_name) attack
+    - I need a protection against [Spam](attack_name)
+- intent: attack_details
+  examples: |
+    - It is a [SYN flood](attack_type)
+    - Looks like [Mirai](attack_type)
+    - This is a [WannaCry](attack_type)
+    - This is a [TCP flood](attack_type) attack
+    - It is a [SYN Flood](attack_type)
+    - Yes, it is a [SYN flood](attack_type)
+    - I think it might be a [HTTP flood](attack_type)
+    - Could be a [DNS Amplification](attack_type)
+    - This is a [DNS Amplification](attack_type)
+- intent: request_attack_information
+  examples: |
+    - Alright, can you elaborate what this attack does?
+    - what does this attack do?
+    - Can you explain what this attack does
+    - explain how the identified attack works
+    - explain how the attack works
+    - How does it work?
+    - can you tell me more about this cyberthreat
+    - What is a [Phishing scam](attack_name)?
+    - Can you explain what a [dDOS](attack_name) attack is?
+    - what is [malware](attack_name)
+    - What is [Whaling](attack_name)
+    - Alright, can you elaborate what a [SYN flood](attack_type) attack does?
+    - Explain [DNS amplification](attack_type) attacks
+    - How does [ransomware](attack_name) work?
+    - What is [spear phishing](attack_name)
+    - What are [volumetric ddos](attack_name) attacks?
+    - Explain how a [worm](attack_name) infection works.
+    - What are [application layer DDos](attack_name) attacks.
+    - What happens if you get infected by a [computer virus](attack_name)?
+    - what does [dns amplification](attack_type) do?
+    - how does [http flood](attack_type) cause harm?
+    - can you tell me what a [protocol based](attack_name) attack is?
+    - What is a [Protocol based DDos](attack_name) attack?
+    - What is [http flood](attack_type) and what [dns amplification](attack_type)?
+    - explain how [http flood](attack_type) works
+    - what is a [ddos](attack_name) attack?
+    - explain [phishing](attack_name)
+    - What is a [phishing scam]{"entity": "attack_name", "value": "phishing"}?
+    - how does [ransomware](attack_name) work
+    - what is a [SYN flood]{"entity": "attack_type", "value": "syn flood"} attack?
+    - what is [whaling](attack_name)?
+    - What is a [ransomware](attack_name) attack?
+    - How does a [volumetric ddos]{"entity": "attack_name", "value": "volumetric"} attack work?
+    - what is a [virus](attack_name)
+    - what is [phishing](attack_name)?
+    - what is [http flood](attack_type)
+- intent: request_further_attack_classification
+  examples: |
+    - Are there any subcategories?
+    - are there any subforms
+    - does it have subforms?
+    - Is this attack further split into subcategories?
+    - Can you explain its subtypes?
+    - can you further subdivide [ddos](attack_name) attacks?
+    - do you have any specific examples of [protocol-based ddos](attack_name) attacks?
+    - Can you further categorize [malware](attack_name) attacks
+    - do you have a further classification of this attack?
+    - what are the subforms of [malware](attack_name) attack
+    - does it have further subtypes?
+    - can you furhter classify it
+    - are there subforms of [volumetric](attack_name) attacks?
+    - are there subtypes for [protocol-based DDoS](attack_name)
+    - do you have examples of [application layer](attack_name) attacks?
+    - are there subtypes for [application-layer](attack_name) attacks?
+    - Which subtypes of [DDoS](attack_name) are there?
+    - are there subtypes of [http flood](attack_type)?
+    - what are subtypes of [application layer](attack_type) attacks?
+    - are there any subtypes of [ddos](attack_name)?
+    - are there further subtypes of [http flood](attack_type)?
+    - What are the subtypes of [phishing](attack_name) attacks?
+    - what are subtypes of [http flood](attack_type)?
+    - what are subtypes of a [worm](attack_name)?
+    - what are subtypes of [malware](attack_name)?
+    - are there subforms for [application layer](attack_name) attacks?
+- intent: request_attack_comparison
+  examples: |
+    - What is the difference between [volumetric DDoS](attack_name) and [protocol based DDoS](attack_name) attacks?
+    - How does [spear phishing](attack_name) differ from [whaling](attack_name)?
+    - how differe [volume-based](attack_name) and [protocol based ddos](attack_name) from each other?
+    - compare [volumetric](attack_name) and [protocol based](attack_name) attacks
+    - Tell me the difference between a [worm](attack_name) and a [virus](attack_name)
+    - give me the difference between [ddos](attack_name) and [application layer ddos]
+    - compare [malware](attack_name) and [pishing](attack_name)
+    - how does [ransomware](attack_name) vary from [standard phishing](attack_name)
+    - whats the difference between a [worm](attack_name), a [virus](attack_name), and [ransomware](attack_name)?
+    - compare [spear phishing](attack_name), [protocl based ddoS](attack_name), [worm](attack_name) and [volumetric Ddos](attack_name)
+    - what is the difference between this and a [malware](attack_name) infection?
+    - how does this attack differ from a [virus](attack_name) attack?
+    - whats the difference to a [worm](attack_name)?
+    - how does this attack differ from a [virus](attack_name) attack or [ransomware](attack_name)
+    - what are their main differences?
+    - how do they differ from each other
+    - can you compare these attacks?
+    - compare [application layer](attack_name) attack and [protocol based](attack_name) attack
+    - compare [virus](attack_name) and [worm](attack_name)
+    - compare [worm](attack_name) with [virus](attack_name)
+    - tell me the difference between [malware](attack_name) and [phishing](attack_name).
+    - How do [protocol based ddos]{"entity": "attack_name", "value": "protocol based"} differ from [volume based ddos]{"entity": "attack_name", "value": "volumetric"} attacks
+- intent: request_attack_challenges
+  examples: |
+    - what challenges does this attack bring along
+    - What are the challenges of this attack?
+    - which challenges does this attack pose
+    - which challenges does a [virus](attack_name) entail?
+    - what challenges does [spear phishing](attack_name) present?
+    - are there any challenges with this attack?
+    - are there any challenges with [worm](attack_name) infections?
+    - what are the issues for this cyberthreat?
+    - Which concerns does it entail
+    - What is the big deal about [phishing scams](attack_name)?
+- intent: request_attack_impacts
+  examples: |
+    - what impacts does this attack have on my business?
+    - what effects result from these kind of attacks?
+    - tell me the effects of [ddos](attack_name)
+    - list all possible consequences of a [phishing](attack_name) attack
+    - name the implications of [malware](attack_name)
+    - give me the impact of this attack
+    - how does [malware](attack_name) affect my business?
+    - how badly is my industry affected by this cyberthreat
+    - how much is the [banking](industry) industry affected by [ddos](attack_name) attacks?
+    - does this attack have severe impact on [healthcare](industry) sector?
+    - Have [phishing](attack_name) attacks serious implications for the [insurance][industry] industry
+- intent: request_attack_symptoms
+  examples: |
+    - What are symptoms of [ddoS](attack_name) attacks?
+    - what are the signs of [phishing scams](attack_name)
+    - how do I know that i am the victim of a [malware](attack_name) attack?
+    - how do I recognize that my [server](target) is infected with [malware](attack_name)
+    - which are the telltale of [application layer](attack_name) attacks?
+    - give me the symptoms of a [http flood](attack_type)
+    - what signals should I look out for in [phishing](attack_name) attacks?
+    - what indicates such an attack?
+    - what symptoms should I look out for these kind of attacks?
+    - give me the symptoms of these types of attacks
+- intent: request_countermeasures
+  examples: |
+    - Are there any countermeasures for this attack?
+    - Which protection measures do you propose for [malware](attack_name)?
+    - what protection measures exist for imminent [application layer DDoS](attack_name)
+    - how do you defend [phishing](attack_name)
+    - how do you detect [virus](attack_name) most efficiently?
+    - how can you fend off [spear phishing](attack_name)
+    - what protection can help preventing such attacks?
+    - how do you block these kind of attacks?
+    - how can [phishing](attack_name) and [ddos](attack_type) be prevented?
+    - give protection for [syn flood](attack_type)
+- intent: target
+  examples: |
+    - The target is my [servers](target)
+    - It is my [Apache](target)
+    - My [Windows](target) systems
+    - The target is my [database](target)
+    - It is my [database](target) server
+    - The target is my [website](target)
+    - My [server resources](target) are targeted
+    - My [computer](target) is being attacked
+    - its my [computer](target) that's being targeted
+    - It is my [computer](target)
+    - my [website](target)
+    - various [endpoints](target) are attacked
+    - [Employees](target) are currently being especially targeted
+    - my [computer](target)
+    - it is my [computer](target) that is being attacked
+- intent: problem_desc
+  examples: |
+    - My [files](target) are [encrypted](problem)
+    - My [server](target) is [overloaded](problem)
+    - I [cannot access](problem) my [database](target)
+    - There is a message asking [bitcoins](cryptocurrency)
+    - I receive a message to pay [ethereum](cryptocurrency)
+    - My [server](target) is receiving [a lot of requests](problem)
+    - It is from [different IPs](problem)
+    - It is [many SYN packets](problem)
+    - My [website](target) became [suddenly very slow](problem)
+    - The [service](target) I provide to my customer has become [unexpectedly slow](problem)
+    - There is [a lot of traffic](problem)
+    - My [site](target) has become [all of a sudden unavailable](problem)
+    - These [many requests](problem) come from an [IP range](problem)
+    - my [website](target) is [unavailable for a very long time](problem)
+    - I'm recognizing a [surge in requests](problem) to my [website](problem)
+    - There is an [inexplicable increase in requests](problem) to an [endpoint](target)
+    - My [server](target) shows [a spike every 30 minutes](problem)
+    - There is [unnatural traffic at odd times](problem)
+    - I can notice some [spikes at odd hours](problem)
+    - I am receiving [many SYN packets](problem)
+    - My [server](target) is receiving [many connection requests packets](problem)
+    - My [server](target) receives [huge amount of DNS resolver responses](problem)
+    - My [server](target) receives [huge amount of DNS responses](problem)
+    - I'm experiencing an [increased loadtime](problem) for my [website](target)
+    - I recognize some [unnatural traffic](problem) such as [spikes at odd hours](problem)
+    - I receive [a lot of requests](problem)
+    - i get [a lot of requests](problem)
+    - there are [many syn packets](problem)
+    - My [server](target) is [overloaded](problem) by processing [unusual requests](problem) from [many different IPs](problem)
+    - Most of them are [SYN packets](problem)
+    - My [server resources](target) are [highly depleted](problem)
+    - My [resources](target) are [utterly used up](problem)
+    - There is a [suspicious amount of network traffic](problem)
+    - It is from a [range of different IPs](problem)
+    - I am [not able to access](problem) my [website](target)
+    - It takes [a long time to respond](problem)
+    - There is an [inbound traffic flood](problem), mainly [from users with similar behavior patterns](problem)
+    - I recognize an [incoming flood of network traffic](problem) coming [from users sharing the same geolocation](problem)
+    - [unusual traffic flows](problem) such as [dramatic increase in requests](problem)
+    - [increasing amount of spam emails](problem) trying to [overload](problem) the [network](problem)
+    - [Servers](target) are [responding in minutes instead of seconds](problem)
+    - My [computer](target) [takes longer as usual](problem)
+    - Overall [computer performance has radically decreased](problem)
+    - [extremely slow access](problem) to [files](target)
+    - [Web page](target) has become [permanently inaccessible](problem)
+    - [Webpage](target) has been [rendered offline](problem)
+    - [web page](target) became [unavailable in the long term](problem)
+    - I am experiencing [unexpected popups](problem)
+    - My [computer](target) is [acting weird](problem)
+    - My [computer](target) makes [strange beep sounds](problem)
+    - Some [files](target) are [missing unwantedly](problem) or they were [unintentionally changed](problem)
+    - my [files](target) [somehow disappeared](problem) or they have been [deleted unexpectedly](problem)
+    - [Files](target) are [missing unknowingly](problem) and some are also [unexpectedly changed](problem)
+    - I get [firewall](target) [warnings](problem) all the time
+    - My [system](target) [continuously freezes](problem) and [crashes](problem)
+    - My [system](target) [freezes and crashes all the time](problem)
+    - [programs](target) [crashes continuously](problem)
+    - there are [inadvertently new icons](problem)
+    - there are some [strange new icons](problem)
+    - I've recognized some [unfamiliar new desktop icons](problem)
+    - i get [error messages](problem) from my [operating system](target)
+    - Received many [system](target) [error messages](problem)
+    - My [computer](target) has a very [low computing performance](problem)
+    - My [PC](target) [runs extremely slowly](problem)
+    - [Decreased computing performance](problem) and an [increased loadtime](problem) as well as [producing strange sound](problem)
+    - Some [programs](target) [open unexpectedly automatically and run themselves](problem)
+    - [Programs](target) [open randomly](problem)
+    - My [Computer](target) [send unwanted email messages](problem) to my [contacts](target)
+    - [unauthorized emails](problem) from my [laptop](target) were send
+    - there is [unusual behavior](problem) of the [web browser](target) which is [displaying not requested pages](problem)
+    - my [browser](target) does [redirect traffic to unrequested websites](problem) all the time
+    - my [firewall](target) is [unintentionally disabled](problem)
+    - [cannot enable](problem) my [firewall](target)
+    - my [antivirus](target) has [completely disappeared](problem)
+    - my [antimalware](target) has [somehow disappeared](problem)
+    - [applications](target) [open sporadically](problem)
+    - i have been [locked out](problem) from my [computer](target). And a [ransom message](problem) has been displayed.
+    - my [system](target) encountered a [fatal system error](problem)
+    - I got displayed a [BSoD](problem)
+    - my [pc](target) displays the (blue screen of death)
+    - A [bug check](problem) is issued
+    - A [kernel error](problem) is output
+    - my [laptop](target) starts very sluggishly.
+    - [system](target) [runs so slowy](problem)
+    - I get an unusual experience when surfing on the Internt. There are [many inexplicable redirects](problem) and [random popups](problem)
+    - I have [many PUPs](problem) on my [computing device](target)
+    - There are [many potentially unwanted programs](problem)
+    - the [hard drive](target) makes [loud noises](problem)
+    - there is [excessive activity](problem) going on my [computer hard drive](target)
+    - I [can't access](problem) important [files](target). I think the [computer storage](target) is [corrupted](problem)
+    - my new [SSD storage](target) is [inexplicably inaccessible](problem)
+    - my new [HDD storage](target) is [corrupted](problem)
+    - the [main storage](target) has been [manipulated](problem)
+    - I'm plagued by [annoying popup messages](problem)
+    - I am being bothered by [unwanted popup messages](problem)
+    - the installed [security program](target) has been [unintentionally disabled](problem)
+    - [employees](target) have been [threatened through email messages](problem)
+    - I receive [suspicious emails](problem) with [inconsistent domain names](problem)
+    - I got [unusual requests through email](problem)
+    - it contains [suspicious links](problem) and [suspicious attachments](problem)
+    - i am asked to [disclose sensitive data](problem)
+    - it includes [grammatical errors](problem)
+    - it has an [unfamiliar tone](problem) and [contains threats](problem)
+    - there are [strange beep sounds](problem)
+    - I could also identify [many syn packets](problem) as the TCP table was almost used up
+    - [low performance](problem)
+    - i hear [strange beep sounds](problem) all the time
+    - I recognize a very [low computing performance](problem)
+    - i receive [a lot of requests](problem)
+    - [strange beep sounds](problem)
+- intent: budget
+  examples: |
+    - My budget is up to [150](budget) [EUR](currency)
+    - My budget is [5000](budget) [USD](currency)
+    - [1200](budget) [CHF](currency)
+    - [4500](budget) [BRL](currency)
+    - [5000](budget) [CHF](currency)
+- intent: solution_config
+  examples: |
+    - I have an [IPtables](solution) installed and I want to [protect](action) my [network](target) against [Port Scanning](attack_name)
+    - I want to [block](action) an [SYN flood](attack_name) using my [IPtables](solution)
+- intent: solution_support
+  examples: |
+    - How can I [block](action) an [IP traffic](object) using [UFW](solution)
+    - I want help to understand how to [block](action) a [port](object) using [UFW](solution)
+- intent: rosi_calc
+  examples: |
+    - Should I invest in [backups](proactive) as a proactive approach to reduce possible [Ransomware](attack_name) impacts?
+    - What is the ROSI for a [training](proactive) in [DDoS](attack_name) identification?
+- intent: critical_data
+  examples: |
+    - I have almost [10](CARDINAL) TB of critical data
+    - [21](CARDINAL) Terabyte
+    - It is exactly [300](CARDINAL) GB
+- intent: chitchat/ask_mood
+  examples: |
+    - how are you?
+    - how are you
+    - how you doing?
+    - what's your mood today?
+    - how are you feeling?
+- intent: chitchat/ask_howbuilt
+  examples: |
+    - Can you give me an idea as to how you were created?
+    - How did they create you?
+    - I want to know how you were formed
+    - What process was used to build you?
+    - Are you built using rasa?
+    - Are u developed in rasa
+    - are you build with rasa ?
+- intent: chitchat/ask_howold
+  examples: |
+    - How old are you?
+    - how old ar you
+    - Tell me your day, month and year of birth.
+    - What is your age?
+    - What is your birthdate?
+    - when were you born?
+    - What's your age?
+- intent: chitchat/ask_isbot
+  examples: |
+    - Ar you a bot ?
+    - Are you a bot
+    - are you a rasa bot?
+    - are you a real bot?
+    - are you a robot
+    - bot?
+- intent: chitchat/ask_ishuman
+  examples: |
+    - hey are you human
+    - are u human
+    - r u real?
+    - are you a real person
+    - you are bot or human?
+- intent: chitchat/ask_languagesbot
+  examples: |
+    - Are you familiar with more than one language?
+    - Can you communicate in any other languages?
+    - Can you speak more than one language?
+    - Do you know any other languages?
+    - Do you speak any other languages?
+- intent: chitchat/ask_time
+  examples: |
+    - Can you give me the time?
+    - Can you tell me the time?
+    - Can you tell me what time it is?
+    - What is the current time?
+    - What is the exact time?
+- intent: chitchat/ask_whatismyname
+  examples: |
+    - Can you tell me my name?
+    - Can you tell me what I am called?
+    - Please let me know what my name is
+    - Say my name.
+    - What exactly is my name?
+    - What is my first name?
+    - What is my full name?
+    - What is my name?
+- intent: chitchat/ask_whatisrasa
+  examples: |
+    - Can you tell me what Rasa does?
+    - Could you tell me more about Rasa?
+    - Give me more information about Rasa
+    - How does Rasa work?
+    - I want to know about rsa
+    - I want to know what rasa actually does that isn't clear to me yet
+    - What is rasa?
+    - What's rasa?
+    - can you explain rasa?
+- intent: out_of_scope/non_english
+  examples: |
+    - Wie fange ich mit Rasa an?
+    - hilf mir beim start
+    - tschüssikowski
+    - ¿Qué pasa?
+    - ça va ?
+    - como te llamas
+    - como inicio en rasa
+    - come stai?
+    - como estas
+    - de donde eres
+    - de que lugar eres?
+    - epdi iruka
+    - eres humana
+    - kalhmera sara ti kaneis
+    - こにちは
+    - 日本語分かる？
+    - chào
+    - 你好
+    - kya hindi me bat kar sakate ho
+    - Dumme sara
+    - αστεία λές
+    - rasa codigo abierto
+- intent: out_of_scope/other
+  examples: |
+    - what's the weather today?
+    - do you like me?
+    - let's play a game
+    - what is the square root of 5
+    - I want to know the weather
+    - what is the meaning of life.
+    - I want a pizza
+    - what year is it
+    - order a pizza
+    - I want to order a pizza
+    - what is the weather today
+    - what is the weather
+    - are you in a relationship with another bot
+    - I'm gonna need help finding a restaurant
+    - Where should I go for dinner?
+    - Is it hot or cold?
+    - weather
+    - weather?
+    - 4 + 2 = ?
+    - I am trying to build one, and did some research before, but I have not do hand-on work yet
+    - I can barely see this white text on light gray background ...
+    - I'm a shitmuncher
+    - Is Rasa really smart?
+    - What did you eat yesterday?
+    - What do you prefer?
+    - What is todays date
+    - What is your hobbies?
+    - are you single?
+    - are you dev?
+    - are you russian?
+    - are you sick
+    - how it compares to alexa
+    - how long have you been online?
+    - i want to book a hotel
+    - i want to buy a roomba for my grandson
+    - please help with my ice cream it's dripping
+    - what do you think of alexa
+    - what does your soul feel my friend
+    - what do oyu think about siri?
+    - what do you think abou siri?
+    - what type of bot?
+    - sfasd
+    - asdkjasdhjkasd
+    - j  bhbhj
+    - you're a sexy piece of software
+- intent: greet+attack_notification
+  examples: |
+    - Hi, can you help me?
+    - Hi can you help me?
+    - Hi. Can you help me?
+    - Hello. I need your help.
+    - Whatsup? I think I am suffering an attack.
+    - Yo. Im under attack.
+    - hey, I'm being attacked.
+    - Hi, Im under attack
+    - hi secbot, I need your help!
+    - Hi secbot, I think im being attacked
+    - Hi, im under an unknown attack. Can you help me?
+    - Hi SecBot, I need your help!
+    - Hey SecBot. I need your help.
+    - Hi SecBot, i need your help
+- intent: greet+problem_desc
+  examples: |
+    - Hello. My [files](target) are [encrypted](problem).
+    - Hi my [server](target) is [overloaded](problem).
+    - hey SecBot! I [cannot access](problem) my [database](target)
+    - Yo, there is a message asking [bitcoins](cryptocurrency)
+    - Hello, I receive a message to pay [ethereum](cryptocurrency)
+    - Good morning. My [server](target) is receiving [a lot of requests](problem).
+- synonym: phishing
+  examples: |
+    - phishing scam
+    - Phishing
+    - Phishing Scam
+    - Phishing scam
+- synonym: syn flood
+  examples: |
+    - SYN flood
+    - SYN Flood
+    - Syn flood
+    - Syn Flood
+- synonym: protocol based
+  examples: |
+    - protocol based ddos
+    - protocol-based
+    - protocol-based DDoS
+    - protocol-based ddos
+    - Protocol-based DDoS
+    - Protocol-based ddos
+    - protocol based DDoS
+    - Protocol based DDoS
+- synonym: volumetric
+  examples: |
+    - volume based ddos
+    - Volumetric
+    - volumetric DDoS
+    - volumetric ddos
+    - Volumetric ddos
+    - volumetric Ddos
+    - volumetric DDOS
+    - volume-based
+    - Volume-based
+    - volume-based DDoS
+    - Volume-based ddos
+    - volume based
+    - Volume based ddos
+    - Volume based DDoS
+    - volume based DDos
+    - volume based DDoS
+- synonym: ddos
+  examples: |
+    - Ddos
+    - dDos
+    - ddOs
+    - DDoS
+    - ddOS
+    - ddoS
+    - DDos
+    - dDOS
+    - DdoS
+    - DDOS
+- synonym: application layer
+  examples: |
+    - application layer ddos
+    - application-layer ddos
+    - Aplication layer
+    - Application-layer ddos
+    - application layer DDos
+    - layer 7
+- synonym: dns amplification
+  examples: |
+    - DNS Amplification
+    - Dns Amplification
+    - DNS amplification
+- synonym: http flood
+  examples: |
+    - HTTP Flood
+    - HTTP flood
+    - Http floot
+- synonym: malware
+  examples: |
+    - malicious software
+    - Malicious Software
+    - Malicious software
+    - Malware
+- synonym: worm
+  examples: |
+    - computer worm
+    - Worm
+    - Computer Worm
+    - Computer worm
+- synonym: virus
+  examples: |
+    - comuter virus
+    - Virus
+    - Computer Virus
+    - Computer virus
+- synonym: ransomware
+  examples: |
+    - ransom software
+    - Ransomware
+- synonym: whaling
+  examples: |
+    - Whaling
+    - whale phishing
+- synonym: spear phishing
+  examples: |
+    - Spear Phishing
+    - Spear phishing
+    - spear Phishing
+- synonym: My
+  examples: |
+    - my
+- synonym: a lot of requests
+  examples: |
+    - many requests
+    - lot of requests
+- synonym: PUPs
+  examples: |
+    - Potentially Unwanted Programs
+- regex: budget
+  examples: |
+    - \b\d{10}\b

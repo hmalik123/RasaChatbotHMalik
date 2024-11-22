@@ -1,0 +1,270 @@
+version: "3.0"
+
+rules:  
+## GENERAL RULES
+- rule: respond to chitchat
+  steps:
+  - intent: chitchat
+  - action: utter_chitchat
+
+- rule: respond to out_of_scope
+  steps:
+  - intent: out_of_scope
+  - action: utter_out_of_scope
+
+## FALLBACK RULES
+- rule: Ask the user to rephrase whenever they send a message with low NLU confidence
+  steps:
+  - intent: nlu_fallback
+  - action: utter_please_rephrase
+
+## SYMPTOM_FORM
+- rule: start symptom form
+  steps:
+  - or:
+    - intent: problem_desc
+    - intent: attack_notification
+    - intent: greet+attack_notification
+    - intent: greet+problem_desc
+  - action: symptom_form
+  - active_loop: symptom_form
+
+- rule: submit symptom form
+  condition:
+    - active_loop: symptom_form
+  steps:
+  - action: symptom_form
+  - active_loop: null
+  - action: action_submit_symptom_form
+  # - action: action_listen
+  # Every rule implicitly includes a prediction for `action_listen` as last step.
+  # This means that Rasa Open Source will wait for the next user message.
+  wait_for_user_input: false
+
+- rule: return to symptom form after out_of_scope intent
+  condition:
+    # Condition that form is active.
+    - active_loop: symptom_form
+  steps:
+  # This unhappy path handles the case of an intent `out_of_scope`.
+  - intent: out_of_scope
+  - action: utter_out_of_scope
+  # Return to form after handling the `out_of_scope` intent
+  - action: symptom_form
+  - active_loop: symptom_form
+
+- rule: return to symptom form after chitchat intent
+  condition:
+    - active_loop: symptom_form
+  steps:
+  - intent: chitchat
+  - action: utter_chitchat
+  - action: symptom_form
+  - active_loop: symptom_form
+
+- rule: return to symptom form after affirm intent
+  condition:
+    - active_loop: symptom_form
+  steps:
+  - intent: affirm
+  - action: utter_affirm
+  - action: symptom_form
+  - active_loop: symptom_form
+
+## MORE_INFO_FORM
+- rule: start more info form
+  steps:
+  - intent: yet_more_information
+  - action: more_info_form
+  - active_loop: more_info_form
+
+- rule: break more info form
+  condition:
+    - active_loop: more_info_form
+  steps:
+  - action: action_provide_requested_attack_information
+  - action: utter_ask_continue
+  - intent: deny
+  - action: action_deactivate_loop
+  - active_loop: null
+
+
+- rule: submit more info form
+  condition:
+    - active_loop: more_info_form
+  steps:
+  - action: more_info_form
+  - active_loop: null
+  - action: action_submit_more_info_form
+  wait_for_user_input: false
+
+- rule: return to more info form after out_of_scope intent
+  condition:
+    - active_loop: more_info_form
+  steps:
+  # This unhappy path handles the case of an intent `out_of_scope`.
+  - intent: out_of_scope
+  - action: utter_out_of_scope
+  # Return to form after handling the `out_of_scope` intent
+  - action: more_info_form
+  - active_loop: more_info_form  
+
+- rule: return to more info form after chitchat intent
+  condition:
+    - active_loop: more_info_form
+  steps:
+  - intent: chitchat
+  - action: utter_chitchat
+  - action: more_info_form
+  - active_loop: more_info_form
+
+- rule: return to more info form after affirm intent
+  condition:
+    - active_loop: more_info_form
+  steps:
+  - intent: affirm
+  - action: utter_affirm
+  - action: more_info_form
+  - active_loop: more_info_form
+
+## ATTACK SUPPORT SCENARIO
+
+## action_provide_requested_attack_information
+- rule: respond with same action to general questions
+  steps:
+  - or:
+    - intent: request_attack_information
+    - intent: request_further_attack_classification
+  - action: action_provide_requested_attack_information
+
+# attack support as unexpected input in symptom form
+- rule: don't wait for user input when interrupting form action part 1
+  condition:
+    - active_loop: symptom_form
+  steps:
+  - or:
+    - intent: request_attack_information
+    - intent: request_further_attack_classification
+  - action: action_provide_requested_attack_information
+  wait_for_user_input: false
+
+# attack support as unexpected input in more info form
+- rule: don't wait for user input when interrupting form action part 2
+  condition:
+    - active_loop: more_info_form
+  steps:
+  - or:
+    - intent: request_attack_information
+    - intent: request_further_attack_classification
+  - action: action_provide_requested_attack_information
+  wait_for_user_input: false
+
+## action_provide_attack_comparison
+- rule: execute action_provide_attack_comparison
+  steps:
+  - intent: request_attack_comparison
+  - action: action_provide_attack_comparison
+
+- rule: don't wait for user input when execute action_provide_attack_comparison is unexpected input part 1
+  condition:
+    - active_loop: symptom_form
+  steps:
+  - intent: request_attack_comparison
+  - action: action_provide_attack_comparison
+  wait_for_user_input: false
+
+- rule: don't wait for user input when execute action_provide_attack_comparison is unexpected input part 2
+  condition:
+    - active_loop: more_info_form
+  steps:
+  - intent: request_attack_comparison
+  - action: action_provide_attack_comparison
+  wait_for_user_input: false
+
+## action_provide_attack_challenges
+- rule: execute action_provide_attack_challenges
+  steps:
+  - intent: request_attack_challenges
+  - action: action_provide_attack_challenges
+
+- rule: don't wait for user input when execute execute action_provide_attack_challenges is unexpected input part 1
+  condition:
+    - active_loop: symptom_form
+  steps:
+  - intent: request_attack_challenges
+  - action: action_provide_attack_challenges
+  wait_for_user_input: false
+
+- rule: don't wait for user input when execute execute action_provide_attack_challenges is unexpected input part 2
+  condition:
+    - active_loop: more_info_form
+  steps:
+  - intent: request_attack_challenges
+  - action: action_provide_attack_challenges
+  wait_for_user_input: false
+
+## action_provide_attack_impacts
+- rule: execute action_provide_attack_impacts
+  steps:
+  - intent: request_attack_impacts
+  - action: action_provide_attack_impacts
+
+- rule: don't wait for user input when execute action_provide_attack_impacts is unexpected input part 1
+  condition:
+    - active_loop: symptom_form
+  steps:
+  - intent: request_attack_impacts
+  - action: action_provide_attack_impacts
+  wait_for_user_input: false
+
+- rule: don't wait for user input when execute action_provide_attack_impacts is unexpected input part 2
+  condition:
+    - active_loop: more_info_form
+  steps:
+  - intent: request_attack_impacts
+  - action: action_provide_attack_impacts
+  wait_for_user_input: false
+
+## action_provide_attack_symptoms
+- rule: execute action_provide_attack_symptoms
+  steps:
+  - intent: request_attack_symptoms
+  - action: action_provide_attack_symptoms
+
+- rule: don't wait for user input when execute action_provide_attack_symptoms is unexpected input part 1
+  condition:
+    - active_loop: symptom_form
+  steps:
+  - intent: request_attack_symptoms
+  - action: action_provide_attack_symptoms
+  wait_for_user_input: false
+
+- rule: don't wait for user input when execute action_provide_attack_symptoms is unexpected input part 2
+  condition:
+    - active_loop: more_info_form
+  steps:
+  - intent: request_attack_symptoms
+  - action: action_provide_attack_symptoms
+  wait_for_user_input: false
+
+## action_provide_attack_countermeasures
+- rule: execute action_provide_attack_countermeasures
+  steps:
+  - intent: request_countermeasures
+  - action: action_provide_attack_countermeasures
+
+- rule: don't wait for user input when execute action_provide_attack_countermeasures is unexpected input part 1
+  condition:
+    - active_loop: symptom_form
+  steps:
+  - intent: request_countermeasures
+  - action: action_provide_attack_countermeasures
+  wait_for_user_input: false
+
+- rule: don't wait for user input when execute action_provide_attack_countermeasures is unexpected input part 2
+  condition:
+    - active_loop: more_info_form
+  steps:
+  - intent: request_countermeasures
+  - action: action_provide_attack_countermeasures
+  wait_for_user_input: false

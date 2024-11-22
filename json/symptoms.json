@@ -1,0 +1,38 @@
+{
+	"ddos": [
+		"Website or service becomes unexpectedly slow.",
+		"Website or service becomes all of asudden unavailable.",
+		"Unable to access a website in the long term.",
+		"Suspect amount of network traffic either from one IP address or a range of different IP addresses.",
+		"Inbound traffic flood from users with similar behavior patterns, including device type, location or simply the version of web browser.",
+		"An inexplicable increase in requests to a website or endpoint.",
+		"Unusual traffic flows (e.g. spikes at odd times of the day or spikes all 20 minutes, etc.).",
+		"Extremely slow access to files.",
+		"Increasing amount of spam emails, trying to overload the network.",
+		"Slow servers responding in minutes instead of seconds (could also be the old equipment or a natural spike from a news event).",
+		"Slow computing performance in general (e.g. taking longer as usual for routine tasks)."
+	],  
+	"malware": [
+		"Continuous crashes (e.g. systems, programs, Blue Screen of Death).",
+		"Slow computer performance (e.g. sluggish start, slow when loading applications).",
+		"Unusual experience when surfing on the Internet (e.g. new toolbars popping up, inexplicable redirects).",
+		"Unusual and unfamiliar new desktop icons (e.g. Potentially Unwanted Programs (PUPs)).",
+		"Difficulties with the hard drive (e.g. loud noises, excessive activity on computer).",
+		"Computer storage is inaccessible or corrupted.",
+		"Unusual error messages.",
+		"Unwanted and annoying popup messages.",
+		"Disabled security program.",
+		"No access to critical programs.",
+		"Encrypted files or programs."
+	], 
+	"phishing": [
+		"Inconsistencies in domain names: e.g. received email from a company using a public domain like '@outlook.com', or misspelt domain names.",
+		"Grammatical (and spelling) errors in emails.",
+		"Email contains threats or generates a sense of urgency.",
+		"Email including suspicious links or attachments.",
+		"Emails asking for login, payment or other personal information.",
+		"Unfamiliar tone or greeting (e.g. when family or employees become too formal).",
+		"Recipient has not started the communication.",
+		"Uncommon requests: E.g. email from IT department sending a link for a security patch for the recipient's computer."		
+	]
+}

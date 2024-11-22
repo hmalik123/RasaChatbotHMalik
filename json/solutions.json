@@ -1,0 +1,39 @@
+{
+    "iptables": {
+      "version": "1.4.21",
+      "OS": "Linux",
+    "support":{
+      "block": {
+          "ports": "iptables -A INPUT -p <protocol> --destination-port <port number> -j DROP",
+          "ip traffic": "iptables -A INPUT -s <ip> -j DROP"
+      }
+    },
+    "protection_config": {
+      "syn flood": "iptables -t raw -A PREROUTING -p tcp -m tcp --syn -j CT --notrack | iptables -A INPUT -p tcp -m tcp -m conntrack --ctstate INVALID,UNTRACKED -j SYNPROXY --sack-perm --timestamp --wscale 7 --mss 1460 | iptables -A INPUT -m conntrack --ctstate INVALID -j DROP",
+      "icmp flood": "iptables -t mangle -A PREROUTING -p icmp -j DROP",
+      "ssh bruteforce": "iptables -A INPUT -p tcp --dport ssh -m conntrack --ctstate NEW -m recent --set | iptables -A INPUT -p tcp --dport ssh -m conntrack --ctstate NEW -m recent --update --seconds 60 --hitcount 10 -j DROP",
+      "port scanning": "iptables -N port-scanning | iptables -A port-scanning -p tcp --tcp-flags SYN,ACK,FIN,RST RST -m limit --limit 1/s --limit-burst 2 -j RETURN | iptables -A port-scanning -j DROP"
+    }
+  },
+  
+    "ufw": {
+      "version": "1.4.21",
+      "OS": "Linux",
+    "support": {
+      "block": {
+          "ports": "ufw deny <port/protocol>",
+          "ip traffic": "ufw deny from <any or ip> to <any or ip> port <port>"
+      },
+      "allow": {
+          "port": "ufw allow <port/protocol>"
+      }
+    },
+    "protection_config": {
+      "block": {
+          "ftp": "ufw deny 22",
+          "telnet": "ufw reject 23 comment 'Telnet port not allowed'"
+      }
+    } 
+  }
+  }
+  

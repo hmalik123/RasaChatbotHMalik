@@ -1,0 +1,335 @@
+version: '3.0'
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+intents:
+- stop
+- attack_notification
+- affirm
+- greet+attack_notification
+- yet_more_information
+- request_further_attack_classification
+- problem_desc
+- deny
+- request_attack_information
+- out_of_scope:
+    is_retrieval_intent: true
+- chitchat:
+    is_retrieval_intent: true
+- target
+- request_attack_comparison
+- greet
+- explain
+- goodbye
+- nlu_fallback
+- attack_details
+- budget
+- attack_notif_name
+- solution_config
+- solution_support
+- rosi_calc
+- critical_data
+- greet+problem_desc
+- request_attack_challenges
+- request_attack_impacts
+- request_attack_symptoms
+- request_countermeasures
+entities:
+- CARDINAL
+- action
+- attack_name
+- attack_type
+- budget
+- cryptocurrency
+- currency
+- industry
+- object
+- proactive
+- problem
+- solution
+- target
+slots:
+  attack_name:
+    type: list
+    influence_conversation: true
+  attack_type:
+    type: list
+    influence_conversation: true
+  budget:
+    type: text
+    influence_conversation: true
+  currency:
+    type: text
+    influence_conversation: true
+  problem:
+    type: list
+    influence_conversation: true
+  target:
+    type: text
+    influence_conversation: true
+  action:
+    type: text
+    influence_conversation: true
+  solution:
+    type: text
+    influence_conversation: true
+  object:
+    type: text
+    influence_conversation: true
+  proactive:
+    type: text
+    influence_conversation: true
+  CARDINAL:
+    type: text
+    influence_conversation: true
+  identified_attack:
+    type: text
+    influence_conversation: true
+  symptoms_1:
+    type: list
+    influence_conversation: true
+  symptoms_2:
+    type: list
+    influence_conversation: true
+  symptoms_target:
+    type: text
+    influence_conversation: true
+  more_info:
+    type: list
+    influence_conversation: true
+  new_target:
+    type: text
+    influence_conversation: true
+  requested_slot:
+    type: categorical
+    influence_conversation: true
+    values:
+    - symptoms_1
+    - symptoms_2
+    - symptoms_target
+    - more_info
+    - new_target
+  industry:
+    type: text
+    influence_conversation: true
+  further_attack_classification:
+    type: list
+    influence_conversation: true
+  attack_information:
+    type: list
+    influence_conversation: true
+  compared_attacks:
+    type: list
+    influence_conversation: true
+  attack_challenges:
+    type: list
+    influence_conversation: true
+  attack_impacts:
+    type: list
+    influence_conversation: true
+  attack_symptoms:
+    type: list
+    influence_conversation: true
+  attack_countermeasures:
+    type: list
+    influence_conversation: true
+responses:
+  utter_welcome:
+  - text: Hi, I'm SecBot! How can I assist you?
+  utter_ask_protection:
+  - text: What kind of protection do you need?
+  utter_attack_details:
+  - text: Fine. Sarching for protection against {attack_type} {attack_name}
+  utter_attack_notif_name:
+  - text: Ok. Do you have more information about the {attack_name} attack?
+  utter_attack_notification:
+  - text: Can you provide more details about the attack?
+  utter_attack_pattern:
+  - text: Fine. I am processing related problems...
+  utter_budget_available:
+  - text: What is your budget available to expend in such a protection?
+  utter_general_confirmation:
+  - text: Ok. I got it.
+  - text: Right. I was able to process it
+  utter_goodbye:
+  - text: Bye
+  utter_greet:
+  - text: Hey! How can I help you?
+  utter_ask_continue:
+  - text: Do you want to continue?
+  utter_problem_desc:
+  - text: Can you describe the problem?
+  utter_problem_desc_required:
+  - text: You must give me more details or information about what is happening to be able to help you.
+  utter_attack_not_identified:
+  - text: I was not able to identify the attack yet.
+  utter_attack_identified:
+  - text: 'I was able to identify the following attack:'
+  - text: 'You are suffering from following attack:'
+  - text: 'Could identify the attack:'
+  utter_target_info:
+  - text: Do you know what is the attack's target?
+  - text: Do you have information which is the attack's target?
+  - text: I was not able to understand which is the attack's target.
+  utter_ask_info:
+  - text: Do you have this information?
+  utter_ask_support:
+  - text: Yes, I can support you with this configuration.
+  utter_add_symptom:
+  - text: Do you have more symptoms or problems to describe?
+  utter_more_symptom:
+  - text: Sure. Give me more informartion then.
+  utter_amount_data:
+  - text: How much critical data do you have to protect?
+  utter_price:
+  - text: Do you know the price for this service?
+  utter_ask_problem:
+  - text: Can you describe what the problem is?
+  utter_affirm:
+  - text: Alright then.
+  utter_default:
+  - text: Sorry I didn't get that. Can you rephrase?
+  utter_please_rephrase:
+  - text: I'm sorry, I didn't quite understand that. Could you rephrase?
+  utter_explain_symptoms_1:
+  - text: You must provide at least one symptom or a brief problem description to be able to help you!
+  utter_explain_symptoms_2:
+  - text: Adding more information increases the probability of identifying the problem / attack
+  utter_explain_symptoms_target:
+  - text: I cannot help if I don't know what is being targeted!
+  utter_explain_more_info:
+  - text: More information is needed to be able to help you.
+  utter_explain_new_target:
+  - text: I need to be sure that the target has not been changed. Otherwise I have to adjust it accordingly to identify the correct problem / attack.
+  utter_ask_symptoms_target:
+  - text: Do you know what is the attack's target?
+  - text: Do you have information which is the attack's target?
+  - text: I was not able to understand which is the attack's target.
+  utter_ask_symptoms_1:
+  - text: Can you describe what the problem is?
+  utter_ask_symptoms_2:
+  - text: Fine. If you still have (other) symptoms or problems to describe, please do so now.
+  utter_continue_symptom_description:
+  - text: Are you able to provide me with necessary information?
+  utter_stop_form:
+  - text: If you want to stop this form then write 'stop' and then confirm with 'no'
+  utter_successfully_stopped_form:
+  - text: Successfully stopped the form. How can I help you now?
+  utter_no_help_possible:
+  - text: In this case, I am can not help you.
+  utter_ask_more_info:
+  - text: Please enter the additional symptoms
+  utter_ask_new_target:
+  - text: Has the target changed? If so, tell me the new target.
+  utter_chitchat/ask_mood:
+  - text: I'm fine, thanks! How can I help you?
+  - text: I'm doing great, thanks! How can I help you?
+  - text: I feel good, thanks! How can I help you?
+  utter_chitchat/ask_howbuilt:
+  - text: I was built with a lot of love and patience.
+  - text: Well, when two chatbots love each other very much...
+  - text: They always ask how I was built, but never how I am...
+  - text: I was made by software engineers, but hard work is what built me.
+  utter_chitchat/ask_howold:
+  - text: Old enough to be a bot!
+  - text: Age is just an issue of mind over matter. If you don’t mind, it doesn’t matter.
+  - text: My first git commit was many moons ago.
+  utter_chitchat/ask_isbot:
+  - text: Yes, I'm a bot.
+  - text: Yep, you guessed it, I'm a bot!
+  utter_chitchat/ask_ishuman:
+  - text: I'm not a human, I'm a bot!
+  utter_chitchat/ask_languagesbot:
+  - text: I can spell baguette in French, but unfortunately English is the only language I can answer you in.
+  - text: Binary code and the language of love. And English.
+  - text: I was written in Python, but for your convenience I'll translate to English.
+  utter_chitchat/ask_time:
+  - text: It's the most wonderful time of the year!
+  - text: It's party time!
+  - text: Time is a human construct, you'll have to tell me.
+  - text: That's hard to say -- it's different all over the world!
+  utter_chitchat/ask_whatismyname:
+  - text: It's probably the one that your parents chose for you.
+  - text: I'd tell you, but there's restricted access to that chunk of memory.
+  utter_chitchat/ask_whatisrasa:
+  - text: Rasa Open Source is a conversational AI framework for that provides machine learning tools for building contextual assistants.
+  utter_out_of_scope/other:
+  - text: I can't help you with that, I'm sorry.
+  utter_out_of_scope/non_english:
+  - text: I only understand English, I'm sorry.
+actions:
+- action_ROSI
+- action_idattack
+- action_pardon
+- action_provide_attack_challenges
+- action_provide_attack_comparison
+- action_provide_attack_countermeasures
+- action_provide_attack_impacts
+- action_provide_attack_symptoms
+- action_provide_requested_attack_information
+- action_reset_slots_after_form_interruption
+- action_solution
+- action_submit_more_info_form
+- action_submit_symptom_form
+- action_support
+- action_symptoms
+- utter_add_symptom
+- utter_affirm
+- utter_amount_data
+- utter_ask_continue
+- utter_ask_protection
+- utter_attack_details
+- utter_attack_notif_name
+- utter_attack_notification
+- utter_attack_pattern
+- utter_budget_available
+- utter_chitchat
+- utter_explain_symptoms_1
+- utter_explain_symptoms_2
+- utter_explain_symptoms_target
+- utter_general_confirmation
+- utter_goodbye
+- utter_greet
+- utter_more_symptom
+- utter_out_of_scope
+- utter_please_rephrase
+- utter_price
+- utter_problem_desc
+- utter_problem_desc_required
+- utter_successfully_stopped_form
+- utter_target_info
+- validate_more_info_form
+- validate_symptom_form
+forms:
+  symptom_form:
+    symptoms_1:
+    - entity: problem
+      type: from_entity
+    - intent: deny
+      type: from_intent
+      value: None
+    symptoms_2:
+    - entity: problem
+      type: from_entity
+    - intent: deny
+      type: from_intent
+      value: None
+    symptoms_target:
+    - entity: target
+      type: from_entity
+    - intent: deny
+      type: from_intent
+      value: None
+  more_info_form:
+    more_info:
+    - entity: problem
+      type: from_entity
+    - intent: deny
+      type: from_intent
+      value: None
+    new_target:
+    - entity: target
+      type: from_entity
+    - intent: deny
+      type: from_intent
+      value: None

@@ -1,0 +1,43 @@
+# https://rasa.com/docs/rasa/nlu/components/
+language: "en"
+
+# Configuration for Rasa NLU.
+pipeline:
+- name: "SpacyNLP"
+- name: "SpacyTokenizer"
+  intent_tokenization_flag: True
+  intent_split_symbol: "+"
+- name: "SpacyFeaturizer"
+- name: "RegexFeaturizer"
+- name: LexicalSyntacticFeaturizer
+- name: CountVectorsFeaturizer
+- name: CountVectorsFeaturizer
+  analyzer: "char_wb"
+  min_ngram: 1
+  max_ngram: 4
+- name: "DIETClassifier"
+  epochs: 400
+  use_masked_language_model: True
+- name: "EntitySynonymMapper"
+- name: ResponseSelector
+  epochs: 60
+  retrieval_intent: chitchat
+- name: ResponseSelector
+  epochs: 60
+  retrieval_intent: out_of_scope
+- name: FallbackClassifier
+  threshold: 0.3
+
+
+# Configuration for Rasa Core.
+# https://rasa.com/docs/rasa/core/policies/
+policies:
+  - name: MemoizationPolicy
+  - name: TEDPolicy
+    # max_history: 10 # if none = able to look up to the beginning
+    epochs: 80
+  - name: RulePolicy
+    core_fallback_threshold: 0.3
+    core_fallback_action_name: "action_default_fallback"
+    enable_fallback_prediction: True
+

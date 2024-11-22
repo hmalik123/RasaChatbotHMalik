@@ -1,0 +1,2506 @@
+version: "3.0"
+stories:
+- story: start conversation and do some chitchat
+  steps:
+  - intent: chitchat
+  - action: utter_chitchat
+  - intent: chitchat
+  - action: utter_chitchat
+  - intent: out_of_scope
+  - action: utter_out_of_scope
+
+- story: Attack Name -> Type -> Target -> Budget -> RECOMMEND
+  steps:
+  - intent: attack_notif_name
+    entities:
+    - attack_name: DDoS
+  - slot_was_set:
+    - attack_name: DDoS
+  - action: utter_attack_notification
+  - intent: attack_details
+    entities:
+    - attack_type: SYN flood
+  - slot_was_set:
+    - attack_type: SYN flood
+  - action: utter_general_confirmation
+  - action: utter_target_info
+  - intent: target
+    entities:
+    - target: database
+  - slot_was_set:
+    - target: database
+  - action: utter_budget_available
+  - intent: budget
+    entities:
+    - budget: '5000'
+    - currency: CHF
+  - slot_was_set:
+    - budget: '5000'
+  - slot_was_set:
+    - currency: CHF
+  - action: utter_attack_details
+  - action: action_pardon
+
+- story: Support
+  steps:
+  - intent: solution_support
+    entities:
+    - action: block
+    - object: ip traffic
+    - solution: ufw
+  - slot_was_set:
+    - action: block
+  - slot_was_set:
+    - object: ip traffic
+  - slot_was_set:
+    - solution: ufw
+  - action: action_support
+
+- story: Solution Config
+  steps:
+  - intent: solution_config
+    entities:
+    - action: block
+    - attack_name: port scanning
+    - solution: iptables
+  - slot_was_set:
+    - action: block
+  - slot_was_set:
+    - attack_name: port scanning
+  - slot_was_set:
+    - solution: iptables
+  - action: action_solution
+
+
+- story: Greet -> Notify Attack -> Symptom_Form -> Attack Identified
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: attack_notification
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - symptoms_1: [unnatural traffic]
+    - symptoms_2: [spikes at odd hours]
+    - symptoms_target: server
+  - active_loop: null
+  - action: action_submit_symptom_form
+  - slot_was_set:
+    - problem: [unnatural traffic, spikes at odd hours]
+    - target: server
+    - symptoms_1: None
+    - symptoms_2: None
+    - symptoms_target: None
+  - action: action_idattack
+  - slot_was_set:
+    - identified_attack: DDoS
+    - problem: None
+    - target: None
+
+
+- story: My files are encrypted using symptom form
+  steps:
+  - intent: problem_desc
+    entities:
+    - problem: encrypted
+  - slot_was_set:
+    - problem: [encrypted]
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - symptoms_1: [encrypted]
+    - symptoms_2: None
+    - symptoms_target: files
+  - active_loop: null
+  - action: action_submit_symptom_form
+  - slot_was_set:
+    - problem: [encrypted]
+    - target: files
+    - symptoms_1: None
+    - symptoms_2: None
+    - symptoms_target: None
+  - action: action_idattack
+  - slot_was_set:
+    - identified_attack: Ransomware
+    - problem: None
+    - target: None
+
+- story: My server is receiving a lot of requests
+  steps:
+  - intent: problem_desc
+    entities:
+    - problem: a lot of requests
+  - slot_was_set:
+    - problem: [a lot of requests]
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - symptoms_1: [a lot of requests]
+    - symptoms_2: None
+    - symptoms_target: server
+  - active_loop: null
+  - action: action_submit_symptom_form
+  - slot_was_set:
+    - problem: [a lot of requests]
+    - target: server
+    - symptoms_1: None
+    - symptoms_2: None
+    - symptoms_target: None
+  - action: action_idattack
+  - slot_was_set:
+    - identified_attack: DDoS
+    - problem: None
+    - target: None
+
+- story: Should I invest in backups as a proactive approach to reduce possible Ransomware impacts?
+  steps:
+  - intent: rosi_calc
+    entities:
+    - proactive: backups
+    - attack_name: Ransomware
+  - slot_was_set:
+    - attack_name: Ransomware
+  - slot_was_set:
+    - proactive: backups
+  - action: utter_amount_data
+  - intent: critical_data
+    entities:
+    - CARDINAL: '10'
+  - action: action_ROSI
+
+- story: greet
+  steps: 
+  - intent: greet
+  - action: utter_greet
+
+- story: goodbye
+  steps: 
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: specify symptoms sequentially one by one using symptom_form for two symptoms 
+  steps:
+  - intent: attack_notification
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - symptoms_1: [unnatural traffic]
+    - symptoms_target: server
+    - symptoms_2: [spikes at odd hours]
+  - active_loop: null
+  - action: action_submit_symptom_form
+  - slot_was_set:
+    - problem: [unnatural traffic, spikes at odd hours]
+    - target: server
+    - symptoms_1: None
+    - symptoms_2: None
+    - symptoms_target: None
+  - action: action_idattack
+  - slot_was_set:
+    - identified_attack: DDoS
+    - problem: None
+    - target: None
+
+- story: specify all symptoms (entity values) in first sentence using symptom_form
+  steps:
+  - intent: attack_notification
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - symptoms_1: [unnatural traffic, spikes at odd hours]
+    - symptoms_target: server
+    - symptoms_2: None
+  - active_loop: null
+  - action: action_submit_symptom_form
+  - slot_was_set:
+    - problem: [unnatural traffic, spikes at odd hours]
+    - target: server
+    - symptoms_1: None
+    - symptoms_2: None
+    - symptoms_target: None
+  - action: action_idattack
+  - slot_was_set:
+    - identified_attack: DDoS
+    - problem: None
+    - target: None
+
+- story: Failed attack identification
+  steps:
+  - intent: attack_notification
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - symptoms_1: [unnatural traffic]
+    - symptoms_target: server
+    - symptoms_2: None
+  - active_loop: null
+  - action: action_submit_symptom_form
+  - slot_was_set:
+    - problem: [unnatural traffic]
+    - target: server
+    - symptoms_1: None
+    - symptoms_2: None
+    - symptoms_target: None
+  - action: action_idattack
+  - slot_was_set: 
+    - identified_attack: None
+
+- story: Add more information after failed attack identification
+  steps:
+  - action: action_idattack
+  - slot_was_set:
+    - identified_attack: None
+  - intent: yet_more_information
+  - action: more_info_form
+  - active_loop: more_info_form
+  - slot_was_set:
+    - more_info: [spikes at odd hours]
+    - new_target: None
+  - active_loop: null
+  - action: action_submit_more_info_form
+  - slot_was_set:
+    - problem: [spikes at odd hours]
+    - more_info: None
+    - new_target: None
+  - action: action_idattack
+  - slot_was_set:
+    - identified_attack: DDoS
+    - problem: None
+    - target: None
+
+- story: Greet -> Notify Attack -> Symptom_Form -> Attack Identified
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: attack_notification
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - symptoms_1: [unnatural traffic]
+    - symptoms_2: [spikes at odd hours]
+    - symptoms_target: server
+  - active_loop: null
+  - action: action_submit_symptom_form
+  - slot_was_set:
+    - problem: [unnatural traffic, spikes at odd hours]
+    - target: server
+    - symptoms_1: None
+    - symptoms_2: None
+    - symptoms_target: None
+  - action: action_idattack
+  - slot_was_set:
+    - identified_attack: DDoS
+    - problem: None
+    - target: None
+
+- story: continue form after initially wanting to stop it
+  steps:
+  - intent: attack_notification
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_1
+  - intent: stop
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: utter_affirm
+  - action: symptom_form
+  - active_loop: symptom_form
+
+- story: continue more_info_form after initially wanting to stop it
+  steps:
+  - action: more_info_form
+  - active_loop: more_info_form
+  - slot_was_set:
+    - requested_slot: more_info
+  - intent: stop
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: utter_affirm
+  - action: more_info_form
+  - active_loop: more_info_form
+
+- story: interrupt symptom form
+  steps:
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_2
+  - intent: stop
+  - action: utter_ask_continue
+  - or:
+    - intent: deny
+    - intent: stop
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: action_reset_slots_after_form_interruption
+  - action: utter_successfully_stopped_form
+
+- story: interrupt more info form
+  steps:
+  - action: more_info_form
+  - active_loop: more_info_form
+  - slot_was_set:
+    - requested_slot: new_target
+  - intent: stop
+  - action: utter_ask_continue
+  - or:
+    - intent: deny
+    - intent: stop
+  - action: action_deactivate_loop
+  - active_loop: null
+  - action: action_reset_slots_after_form_interruption
+  - action: utter_successfully_stopped_form
+
+- story: symptom_form -> interrupt -> continue -> contextual interjection -> continue
+  steps:
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_1
+  - intent: stop
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: utter_affirm
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_1
+  - intent: explain
+  - action: utter_explain_symptoms_1
+  - action: symptom_form
+# - story: No time for out of scope conversation
+#   steps:
+#     - intent: out_of_scope
+#     - action: utter_out_of_scope
+  
+# - story: greet + out of scope conversation
+#   steps:
+#     - intent: greet
+#     - action: utter_greet
+#     - intent: out_of_scope
+#     - action: utter_out_of_scope
+
+## USING MULTI-INTENTS
+- story: specify symptoms sequentially one by one using symptom_form for two symptoms  and using multi-intent
+  steps:
+  - intent: greet+attack_notification
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - symptoms_1: [unnatural traffic]
+    - symptoms_target: server
+    - symptoms_2: [spikes at odd hours]
+  - active_loop: null
+  - action: action_submit_symptom_form
+  - slot_was_set:
+    - problem: [unnatural traffic, spikes at odd hours]
+    - target: server
+    - symptoms_1: None
+    - symptoms_2: None
+    - symptoms_target: None
+  - action: action_idattack
+  - slot_was_set:
+    - identified_attack: DDoS
+    - problem: None
+    - target: None
+
+- story: My server is receiving a lot of requests using multi-intent
+  steps:
+  - intent: greet+problem_desc
+    entities:
+    - problem: a lot of requests
+  - slot_was_set:
+    - problem: [a lot of requests]
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - symptoms_1: [a lot of requests]
+    - symptoms_2: None
+    - symptoms_target: server
+  - active_loop: null
+  - action: action_submit_symptom_form
+  - slot_was_set:
+    - problem: [a lot of requests]
+    - target: server
+    - symptoms_1: None
+    - symptoms_2: None
+    - symptoms_target: None
+  - action: action_idattack
+  - slot_was_set:
+    - identified_attack: DDoS
+    - problem: None
+    - target: None
+
+## CONTEXTUAL INTERJECTIONS
+- story: symptoms_1 interjection
+  steps:
+  - intent: attack_notification
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_1
+  - intent: explain
+  - action: utter_explain_symptoms_1
+  - action: symptom_form
+
+- story: symptoms_2 interjection
+  steps:
+  - intent: attack_notification
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_2
+  - intent: explain
+  - action: utter_explain_symptoms_2
+  - action: symptom_form
+
+- story: symptoms_target interjection
+  steps:
+  - intent: attack_notification
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_target
+  - intent: explain
+  - action: utter_explain_symptoms_target
+  - action: symptom_form
+
+- story: more_info interjection
+  steps:
+  - intent: yet_more_information
+  - action: more_info_form
+  - active_loop: more_info_form
+  - slot_was_set:
+    - requested_slot: more_info
+  - intent: explain
+  - action: utter_explain_more_info
+  - action: more_info_form
+
+- story: new_target interjection
+  steps:
+  - intent: yet_more_information
+  - action: more_info_form
+  - active_loop: more_info_form
+  - slot_was_set:
+    - requested_slot: new_target
+  - intent: explain
+  - action: utter_explain_new_target
+  - action: more_info_form
+
+## STORIES FOR ACTION SUPPORT SCENARIO
+
+- story: unhappy path -> user asks for attack description altough attack identification has failed
+  steps:
+  - action: action_idattack
+  - slot_was_set:
+    - identified_attack: None
+  - slot_was_set:
+    - problem: null
+  - slot_was_set:
+    - target: null
+  - intent: request_attack_information
+  - action: action_provide_requested_attack_information
+
+- story: explain ddos attack without specifying attack entities
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: request_attack_information
+    entities:
+    - attack_name: 
+      - Malware
+      - DDoS
+  - action: action_provide_requested_attack_information
+  - slot_was_set:
+    - attack_information:
+      - malware
+      - ddos
+
+- story: happy path -> ask for attack description after successful attack identification without providing attack entities
+  steps:
+  - action: action_idattack
+  - slot_was_set:
+    - identified_attack: DDoS
+  - slot_was_set:
+    - problem: null
+  - slot_was_set:
+    - target: null
+  - intent: request_attack_information
+  - action: action_provide_requested_attack_information
+  - slot_was_set:
+    - attack_information:
+      - ddos
+
+- story: ask for attack description and subtypes after successful attack identification without providing attack entities
+  steps:
+  - action: action_idattack
+  - slot_was_set:
+    - identified_attack: DDoS
+  - slot_was_set:
+    - problem: null
+  - slot_was_set:
+    - target: null
+  - intent: request_attack_information
+  - action: action_provide_requested_attack_information
+  - slot_was_set:
+    - attack_information:
+      - ddos
+  - intent: request_further_attack_classification
+  - action: action_provide_requested_attack_information
+  - slot_was_set:
+    - further_attack_classification:
+      - application layer
+      - protocol based
+      - volumetric
+
+- story: My server is receiving a lot of requests using multi-intent + requesting general information without providing attack entities
+  steps:
+  - intent: greet+problem_desc
+    entities:
+    - problem: a lot of requests
+  - slot_was_set:
+    - problem: [a lot of requests]
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - symptoms_1: [a lot of requests]
+    - symptoms_2: None
+    - symptoms_target: server
+  - active_loop: null
+  - action: action_submit_symptom_form
+  - slot_was_set:
+    - problem: [a lot of requests]
+    - target: server
+    - symptoms_1: None
+    - symptoms_2: None
+    - symptoms_target: None
+  - action: action_idattack
+  - slot_was_set:
+    - identified_attack: DDoS
+    - problem: None
+    - target: None
+  - intent: request_attack_information
+  - action: action_provide_requested_attack_information
+  - slot_was_set:
+    - attack_information:
+      - ddos
+  - intent: request_further_attack_classification
+  - action: action_provide_requested_attack_information
+  - slot_was_set:
+    - further_attack_classification:
+      - volumetric
+      - protocol based
+      - application layer
+
+- story: request general information for ddos attacks
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: request_attack_information
+    entities:
+    - attack_name:
+      - DDoS
+  - slot_was_set: 
+    - attack_name: 
+      - DDoS
+  - action: action_provide_requested_attack_information
+  - slot_was_set:
+    - attack_information:
+      - ddos
+  - intent: request_further_attack_classification
+  - action: action_provide_requested_attack_information
+  - slot_was_set:
+    - further_attack_classification:
+      - volumetric
+      - protocol based
+      - application layer
+  - intent: request_attack_comparison
+    entities:
+    - attack_name:
+      - volumetric
+      - protocol based
+  - slot_was_set:
+    - attack_name: 
+      - volumetric
+      - protocol based
+  - action: action_provide_attack_comparison
+  - slot_was_set:
+    - compared_attacks:
+      - volumetric
+      - protocol based
+  
+- story: what are challenges of application layer ddos attacks?
+  steps: 
+  - intent: request_attack_information
+    entities:
+    - attack_name: 
+      - volumetric
+  - action: action_provide_requested_attack_information
+  - slot_was_set:
+    - attack_information:
+      - volumetric
+  - intent: request_attack_challenges
+  - action: action_provide_attack_challenges
+  - slot_was_set:
+    - attack_challenges:
+      - volumetric
+
+- story: what impacts do ddos attacks have?
+  steps:
+  - intent: request_attack_impacts
+    entities:
+    - attack_name:
+      - DDoS
+  - action: action_provide_attack_impacts
+  - slot_was_set:
+    - attack_impacts:
+      - ddos
+  
+- story: request attack impacts after successfull attack identification
+  steps:
+  - action: action_idattack 
+  - slot_was_set:
+    - identified_attack: malware
+  - slot_was_set:
+    - problem: null
+  - slot_was_set:
+    - target: null
+  - intent: request_attack_impacts
+  - action: action_provide_attack_impacts
+  - slot_was_set:
+    - attack_impacts:
+      - ddos
+
+- story: give me symptoms and countermeasures for ddos attacks
+  steps:
+  - intent: request_attack_symptoms
+    entities:
+    - attack_name:
+      - ddos
+  - slot_was_set:
+    - attack_name:
+      - ddos
+  - action: action_provide_attack_symptoms
+  - slot_was_set:
+    - attack_symptoms:
+      - ddos
+  - intent: request_countermeasures
+  - action: action_provide_attack_countermeasures
+  - slot_was_set:
+    - attack_countermeasures:
+      - ddos
+  
+## attack support actions as unexpected inputs in form actions
+- story: unexpected input provide attack comparison in symptom form
+  steps:
+  - intent: greet+attack_notification
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_1
+  - intent: request_attack_comparison 
+    entities:
+    - attack_name: application layer
+    - attack_name: protocol based
+  - slot_was_set:
+    - attack_name:
+      - application layer
+      - protocol based
+  - action: action_provide_attack_comparison
+  - slot_was_set:
+    - compared_attacks:
+      - application layer
+      - protocol based
+  - action: utter_ask_continue
+  - intent: stop
+  - action: action_deactivate_loop
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_reset_slots_after_form_interruption
+  - action: utter_successfully_stopped_form
+
+- story: unexpected input provide attack comparison in more info form
+  steps:
+  - intent: yet_more_information
+  - action: more_info_form
+  - active_loop: more_info_form
+  - slot_was_set:
+    - requested_slot: more_info
+  - intent: request_attack_comparison 
+    entities:
+    - attack_name: spear phishing
+    - attack_name: standard phishing
+  - slot_was_set:
+    - attack_name:
+      - spear phishing
+      - standard phishing
+  - action: action_provide_attack_comparison
+  - slot_was_set:
+    - compared_attacks:
+      - spear phishing
+      - standard phishing
+  - action: utter_ask_continue
+  - intent: stop
+  - action: action_deactivate_loop
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_reset_slots_after_form_interruption
+  - action: utter_successfully_stopped_form
+
+- story: unexpected input provide attack challenges in symptom form
+  steps:
+  - intent: greet+attack_notification
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_1
+  - intent: request_attack_challenges 
+    entities:
+    - attack_name: application layer
+  - slot_was_set:
+    - attack_name:
+      - application layer
+  - action: action_provide_attack_challenges
+  - slot_was_set:
+    - attack_challenges:
+      - application layer
+  - action: utter_ask_continue
+  - intent: stop
+  - action: action_deactivate_loop
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_reset_slots_after_form_interruption
+  - action: utter_successfully_stopped_form 
+
+- story: unexpected input provide attack challenges in more info form
+  steps:
+  - intent: yet_more_information
+  - action: more_info_form
+  - active_loop: more_info_form
+  - slot_was_set:
+    - requested_slot: more_info
+  - intent: request_attack_challenges 
+    entities:
+    - attack_name: worm
+  - slot_was_set:
+    - attack_name:
+      - worm
+  - action: action_provide_attack_challenges
+  - slot_was_set:
+    - attack_challenges:
+      - worm
+  - action: utter_ask_continue
+  - intent: stop
+  - action: action_deactivate_loop
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_reset_slots_after_form_interruption
+  - action: utter_successfully_stopped_form
+
+- story: unexpected input provide attack impacts in symptom form
+  steps:
+  - intent: greet+attack_notification
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_1
+  - intent: request_attack_impacts 
+    entities:
+    - attack_name: phishing
+  - slot_was_set:
+    - attack_name:
+      - phishing
+  - action: action_provide_attack_impacts
+  - slot_was_set:
+    - attack_impacts:
+      - phishing
+  - action: utter_ask_continue
+  - intent: stop
+  - action: action_deactivate_loop
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_reset_slots_after_form_interruption
+  - action: utter_successfully_stopped_form 
+
+- story: unexpected input provide attack impacts in more info form
+  steps:
+  - intent: yet_more_information
+  - action: more_info_form
+  - active_loop: more_info_form
+  - slot_was_set:
+    - requested_slot: more_info
+  - intent: request_attack_impacts 
+    entities:
+    - attack_name: virus
+  - slot_was_set:
+    - attack_name:
+      - virus
+  - action: action_provide_attack_impacts
+  - slot_was_set:
+    - attack_challenges:
+      - virus
+  - action: utter_ask_continue
+  - intent: stop
+  - action: action_deactivate_loop
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_reset_slots_after_form_interruption
+  - action: utter_successfully_stopped_form
+
+- story: unexpected input provide attack symptoms in symptom form
+  steps:
+  - intent: greet+attack_notification
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_1
+  - intent: request_attack_symptoms 
+    entities:
+    - attack_name: ddos
+  - slot_was_set:
+    - attack_name:
+      - ddos
+  - action: action_provide_attack_symptoms
+  - slot_was_set:
+    - attack_symptoms:
+      - ddos
+  - action: utter_ask_continue
+  - intent: deny
+  - action: action_deactivate_loop
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_reset_slots_after_form_interruption
+  - action: utter_successfully_stopped_form
+
+- story: unexpected input provide attack symptoms in more info form
+  steps:
+  - intent: yet_more_information
+  - action: more_info_form
+  - active_loop: more_info_form
+  - slot_was_set:
+    - requested_slot: more_info
+  - intent: request_attack_symptoms 
+    entities:
+    - attack_name: malware
+  - slot_was_set:
+    - attack_name:
+      - malware
+  - action: action_provide_attack_symptoms
+  - slot_was_set:
+    - attack_symptoms:
+      - malware
+  - action: utter_ask_continue
+  - intent: stop
+  - action: action_deactivate_loop
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_reset_slots_after_form_interruption
+  - action: utter_successfully_stopped_form
+
+- story: unexpected input provide attack countermeasures in symptom form
+  steps:
+  - intent: greet+attack_notification
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_1
+  - intent: request_countermeasures 
+    entities:
+    - attack_name: ddos
+  - slot_was_set:
+    - attack_name:
+      - ddos
+  - action: action_provide_attack_countermeasures
+  - slot_was_set:
+    - attack_countermeasures:
+      - ddos
+  - action: utter_ask_continue
+  - intent: deny
+  - action: action_deactivate_loop
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_reset_slots_after_form_interruption
+  - action: utter_successfully_stopped_form
+
+- story: unexpected input provide attack countermeasures in more info form
+  steps:
+  - intent: yet_more_information
+  - action: more_info_form
+  - active_loop: more_info_form
+  - slot_was_set:
+    - requested_slot: more_info
+  - intent: request_countermeasures 
+    entities:
+    - attack_name: malware
+  - slot_was_set:
+    - attack_name:
+      - malware
+  - action: action_provide_attack_countermeasures
+  - slot_was_set:
+    - attack_countermeasures:
+      - malware
+  - action: utter_ask_continue
+  - intent: stop
+  - action: action_deactivate_loop
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_reset_slots_after_form_interruption
+  - action: utter_successfully_stopped_form
+
+## INTERACTIVE TRAINING STORIES SYMPTOM DESCRIPTION
+- story: Interactive training with unhappy paths for symptom_form
+  steps:
+  - intent: greet+attack_notification
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_1
+  - intent: out_of_scope
+  - action: utter_out_of_scope
+  - action: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_1
+  - slot_was_set:
+    - problem:
+      - locked out
+  - slot_was_set:
+    - symptoms_1: locked out
+  - slot_was_set:
+    - requested_slot: symptoms_2
+  - intent: explain
+  - action: utter_explain_symptoms_2
+  - action: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_2
+  - intent: out_of_scope
+  - action: utter_out_of_scope
+  - action: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_2
+  - slot_was_set:
+    - symptoms_2: None
+  - slot_was_set:
+    - requested_slot: symptoms_target
+  - intent: chitchat
+  - action: utter_chitchat
+  - action: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_target
+  - intent: explain
+  - action: utter_explain_symptoms_target
+  - action: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_target
+  - intent: chitchat
+  - action: utter_chitchat
+  - action: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_target
+  - slot_was_set:
+    - target: computer
+  - slot_was_set:
+    - symptoms_target: computer
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_submit_symptom_form
+  - slot_was_set:
+    - problem:
+      - locked out
+  - slot_was_set:
+    - target: computer
+  - slot_was_set:
+    - symptoms_1: null
+  - slot_was_set:
+    - symptoms_2: null
+  - slot_was_set:
+    - symptoms_target: null
+  - action: action_idattack
+  - slot_was_set:
+    - identified_attack: None
+  - slot_was_set:
+    - problem: null
+  - slot_was_set:
+    - target: null
+
+- story: Interactive training with unhappy paths for symptom_form and more_info_form
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: problem_desc
+    entities:
+    - problem: a lot of requests
+  - slot_was_set:
+    - problem:
+      - a lot of requests
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_1
+  - slot_was_set:
+    - problem:
+      - a lot of requests
+  - slot_was_set:
+    - symptoms_1: a lot of requests
+  - slot_was_set:
+    - requested_slot: symptoms_2
+  - intent: explain
+  - action: utter_explain_symptoms_2
+  - action: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_2
+  - slot_was_set:
+    - problem:
+      - many syn packets
+  - slot_was_set:
+    - symptoms_2: many syn packets
+  - slot_was_set:
+    - requested_slot: symptoms_target
+  - slot_was_set:
+    - target: computer
+  - slot_was_set:
+    - symptoms_target: computer
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_submit_symptom_form
+  - slot_was_set:
+    - problem:
+      - a lot of requests
+      - many syn packets
+  - slot_was_set:
+    - target: computer
+  - slot_was_set:
+    - symptoms_1: null
+  - slot_was_set:
+    - symptoms_2: null
+  - slot_was_set:
+    - symptoms_target: null
+  - action: action_idattack
+  - slot_was_set:
+    - identified_attack: null
+  - intent: yet_more_information
+  - action: more_info_form
+  - active_loop: more_info_form
+  - slot_was_set:
+    - requested_slot: more_info
+  - slot_was_set:
+    - more_info: None
+  - slot_was_set:
+    - requested_slot: new_target
+  - slot_was_set:
+    - target: website
+  - slot_was_set:
+    - new_target: website
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_submit_more_info_form
+  - slot_was_set:
+    - problem:
+      - None
+  - slot_was_set:
+    - target: website
+  - slot_was_set:
+    - more_info: null
+  - slot_was_set:
+    - new_target: null
+  - action: action_idattack
+  - slot_was_set:
+    - identified_attack: null
+
+- story: Interactive training with one unhappy paths for symptom_form
+  steps:
+  - intent: greet+attack_notification
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_1
+  - slot_was_set:
+    - problem:
+      - overloaded
+      - unusual requests
+      - many different IPs
+  - slot_was_set:
+    - target: server
+  - slot_was_set:
+    - symptoms_1:
+      - overloaded
+      - unusual requests
+      - many different IPs
+  - slot_was_set:
+    - symptoms_target: server
+  - slot_was_set:
+    - requested_slot: symptoms_2
+  - intent: chitchat
+  - action: utter_chitchat
+  - action: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_2
+  - slot_was_set:
+    - problem:
+      - SYN packets
+  - slot_was_set:
+    - symptoms_2: SYN packets
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_submit_symptom_form
+  - slot_was_set:
+    - problem:
+      - overloaded
+      - unusual requests
+      - many different IPs
+      - SYN packets
+  - slot_was_set:
+    - target: server
+  - slot_was_set:
+    - symptoms_1: null
+  - slot_was_set:
+    - symptoms_2: null
+  - slot_was_set:
+    - symptoms_target: null
+  - action: action_idattack
+  - slot_was_set:
+    - identified_attack: DDoS
+  - slot_was_set:
+    - problem: null
+  - slot_was_set:
+    - target: null
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: interactive training part 1 - unhappy paths using 'stop', 'request_attack_information' intents, and so on
+  steps:
+  - intent: greet+attack_notification
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_1
+  - intent: explain
+  - action: utter_explain_symptoms_1
+  - action: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_1
+  - slot_was_set:
+    - symptoms_1: null
+  - slot_was_set:
+    - requested_slot: symptoms_1
+  - intent: stop
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: utter_affirm
+  - action: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_1
+  - slot_was_set:
+    - problem:
+      - strange beep sounds
+  - slot_was_set:
+    - symptoms_1: strange beep sounds
+  - slot_was_set:
+    - requested_slot: symptoms_2
+  - intent: request_attack_information
+    entities:
+    - attack_name: ddos
+  - slot_was_set:
+    - attack_name:
+      - ddos
+  - action: action_provide_requested_attack_information
+  - slot_was_set:
+    - attack_information:
+      - ddos
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: utter_affirm
+  - action: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_2
+  - intent: request_further_attack_classification
+    entities:
+    - attack_name: ddos
+  - slot_was_set:
+    - attack_name:
+      - ddos
+  - action: action_provide_requested_attack_information
+  - slot_was_set:
+    - further_attack_classification:
+      - volumetric
+      - protocol based
+      - application layer
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: utter_affirm
+  - action: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_2
+  - slot_was_set:
+    - symptoms_2: None
+  - slot_was_set:
+    - requested_slot: symptoms_target
+  - slot_was_set:
+    - symptoms_target: null
+  - slot_was_set:
+    - requested_slot: symptoms_target
+  - intent: request_attack_comparison
+    entities:
+    - attack_name: application layer
+    - attack_name: protocol based
+  - slot_was_set:
+    - attack_name:
+      - application layer
+      - protocol based
+  - action: action_provide_attack_comparison
+  - slot_was_set:
+    - compared_attacks:
+      - application layer
+      - protocol based
+  - action: utter_ask_continue
+  - intent: deny
+  - action: action_deactivate_loop
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - intent: attack_notification
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - symptoms_2: None
+  - slot_was_set:
+    - symptoms_1: strange beep sounds
+  - slot_was_set:
+    - requested_slot: symptoms_target
+  - intent: stop
+  - action: utter_ask_continue
+  - intent: stop
+  - action: action_deactivate_loop
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - intent: yet_more_information
+  - action: more_info_form
+  - active_loop: more_info_form
+  - slot_was_set:
+    - requested_slot: more_info
+  - slot_was_set:
+    - more_info: null
+  - slot_was_set:
+    - requested_slot: more_info
+  - intent: chitchat
+  - action: utter_chitchat
+  - action: more_info_form
+  - slot_was_set:
+    - requested_slot: more_info
+  - slot_was_set:
+    - problem:
+      - low performance
+  - slot_was_set:
+    - more_info: low performance
+  - slot_was_set:
+    - requested_slot: new_target
+  - intent: request_attack_information
+    entities:
+    - attack_name: phishing
+  - slot_was_set:
+    - attack_name:
+      - phishing
+  - action: action_provide_requested_attack_information
+  - slot_was_set:
+    - attack_information:
+      - phishing
+  - action: utter_ask_continue
+  - intent: deny
+  - action: action_deactivate_loop
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - intent: yet_more_information
+  - action: more_info_form
+  - active_loop: more_info_form
+  - slot_was_set:
+    - more_info: low performance
+  - slot_was_set:
+    - requested_slot: new_target
+  - intent: stop
+  - action: utter_ask_continue
+  - intent: deny
+  - action: action_deactivate_loop
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+
+- story: interactive training part 2 - unhappy paths using 'stop', 'request_attack_information' intents, and so on
+  steps:
+  - intent: greet+attack_notification
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_1
+  - intent: explain
+  - action: utter_explain_symptoms_1
+  - action: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_1
+  - slot_was_set:
+    - symptoms_1: null
+  - slot_was_set:
+    - requested_slot: symptoms_1
+  - intent: stop
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: utter_affirm
+  - action: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_1
+  - slot_was_set:
+    - problem:
+      - strange beep sounds
+  - slot_was_set:
+    - problem:
+      - strange beep sounds
+  - slot_was_set:
+    - symptoms_1: strange beep sounds
+  - slot_was_set:
+    - requested_slot: symptoms_2
+  - intent: request_attack_information
+    entities:
+    - attack_name: ddos
+  - slot_was_set:
+    - attack_name:
+      - ddos
+  - slot_was_set:
+    - attack_name:
+      - ddos
+  - action: action_provide_requested_attack_information
+  - slot_was_set:
+    - attack_information:
+      - ddos
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: utter_affirm
+  - action: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_2
+  - intent: request_further_attack_classification
+    entities:
+    - attack_name: ddos
+  - slot_was_set:
+    - attack_name:
+      - ddos
+  - slot_was_set:
+    - attack_name:
+      - ddos
+  - action: action_provide_requested_attack_information
+  - slot_was_set:
+    - further_attack_classification:
+      - volumetric
+      - protocol based
+      - application layer
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: utter_affirm
+  - action: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_2
+  - slot_was_set:
+    - symptoms_2: None
+  - slot_was_set:
+    - requested_slot: symptoms_target
+  - slot_was_set:
+    - symptoms_target: null
+  - slot_was_set:
+    - requested_slot: symptoms_target
+  - intent: request_attack_comparison
+    entities:
+    - attack_name: application layer
+    - attack_name: protocol based
+  - slot_was_set:
+    - attack_name:
+      - application layer
+      - protocol based
+  - slot_was_set:
+    - attack_name:
+      - application layer
+      - protocol based
+  - action: action_provide_attack_comparison
+  - slot_was_set:
+    - compared_attacks:
+      - application layer
+      - protocol based
+  - action: utter_ask_continue
+  - intent: deny
+  - action: action_deactivate_loop
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - intent: attack_notification
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - symptoms_2: None
+  - slot_was_set:
+    - symptoms_1: strange beep sounds
+  - slot_was_set:
+    - requested_slot: symptoms_target
+  - intent: stop
+  - action: utter_ask_continue
+  - intent: stop
+  - action: action_deactivate_loop
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+
+# - story: interactive_story part 3 - interrupting and directly continue symptom and more info form, unexpected inputs (action_provide_requested_information), interrupt more info form
+#   steps:
+#   - intent: greet
+#   - action: utter_greet
+#   - intent: attack_notification
+#   - action: symptom_form
+#   - active_loop: symptom_form
+#   - slot_was_set:
+#     - requested_slot: symptoms_1
+#   - intent: request_attack_information
+#     entities:
+#     - attack_name: phishing
+#   - slot_was_set:
+#     - attack_name:
+#       - phishing
+#   - action: action_provide_requested_attack_information
+#   - slot_was_set:
+#     - attack_information:
+#       - phishing
+#   - action: utter_ask_continue
+#   - intent: affirm
+#   - action: utter_affirm
+#   - action: symptom_form
+#   - slot_was_set:
+#     - requested_slot: symptoms_1
+#   - slot_was_set:
+#     - problem:
+#       - strange beep sounds
+#   - slot_was_set:
+#     - symptoms_1: strange beep sounds
+#   - slot_was_set:
+#     - requested_slot: symptoms_2
+#   - intent: request_attack_comparison
+#     entities:
+#     - attack_name: virus
+#     - attack_name: worm
+#   - slot_was_set:
+#     - attack_name:
+#       - virus
+#       - worm
+#   - action: action_provide_attack_comparison
+#   - slot_was_set:
+#     - compared_attacks:
+#       - virus
+#       - worm
+#   - action: symptom_form
+#   - slot_was_set:
+#     - requested_slot: symptoms_2
+#   - action: utter_ask_continue
+#   - intent: affirm
+#   - action: utter_affirm
+#   - action: symptom_form
+#   - slot_was_set:
+#     - requested_slot: symptoms_2
+#   - slot_was_set:
+#     - symptoms_2: None
+#   - slot_was_set:
+#     - requested_slot: symptoms_target
+#   - intent: request_attack_information
+#     entities:
+#     - attack_name: ransomware
+#   - slot_was_set:
+#     - attack_name:
+#       - ransomware
+#   - action: action_provide_requested_attack_information
+#   - slot_was_set:
+#     - attack_information:
+#       - ransomware
+#   - action: utter_ask_continue
+#   - intent: affirm
+#   - action: utter_affirm
+#   - action: symptom_form
+#   - slot_was_set:
+#     - requested_slot: symptoms_target
+#   - intent: stop
+#   - action: utter_ask_continue
+#   - intent: affirm
+#   - action: utter_affirm
+#   - action: symptom_form
+#   - slot_was_set:
+#     - requested_slot: symptoms_target
+#   - slot_was_set:
+#     - target: computer
+#   - slot_was_set:
+#     - symptoms_target: computer
+#   - slot_was_set:
+#     - requested_slot: null
+#   - active_loop: null
+#   - action: action_submit_symptom_form
+#   - slot_was_set:
+#     - problem:
+#       - strange beep sounds
+#   - slot_was_set:
+#     - target: computer
+#   - slot_was_set:
+#     - symptoms_1: null
+#   - slot_was_set:
+#     - symptoms_2: null
+#   - slot_was_set:
+#     - symptoms_target: null
+#   - action: action_idattack
+#   - slot_was_set:
+#     - identified_attack: null
+#   - intent: yet_more_information
+#   - action: more_info_form
+#   - active_loop: more_info_form
+#   - slot_was_set:
+#     - requested_slot: more_info
+#   - intent: request_attack_information
+#     entities:
+#     - attack_type: syn flood
+#   - slot_was_set:
+#     - attack_type:
+#       - syn flood
+#   - action: action_provide_requested_attack_information
+#   - slot_was_set:
+#     - attack_information:
+#       - syn flood
+#   - action: utter_ask_continue
+#   - intent: request_further_attack_classification
+#     entities:
+#     - attack_type: http flood
+#   - slot_was_set:
+#     - attack_type:
+#       - http flood
+#   - action: action_provide_requested_attack_information
+#   - slot_was_set:
+#     - further_attack_classification: null
+#   - action: utter_ask_continue
+#   - intent: affirm
+#   - action: utter_affirm
+#   - action: more_info_form
+#   - slot_was_set:
+#     - requested_slot: more_info
+#   - intent: stop
+#   - action: utter_ask_continue
+#   - intent: affirm
+#   - action: utter_affirm
+#   - action: more_info_form
+#   - slot_was_set:
+#     - requested_slot: more_info
+#   - slot_was_set:
+#     - problem:
+#       - low computing performance
+#   - slot_was_set:
+#     - more_info: low computing performance
+#   - slot_was_set:
+#     - requested_slot: new_target
+#   - intent: stop
+#   - action: utter_ask_continue
+#   - intent: stop
+#   - action: action_deactivate_loop
+#   - active_loop: null
+#   - slot_was_set:
+#     - requested_slot: null
+#   - action: action_reset_slots_after_form_interruption
+#   - slot_was_set:
+#     - symptoms_2: null
+#   - slot_was_set:
+#     - more_info: null
+#   - action: utter_successfully_stopped_form
+#   - intent: request_attack_information
+#     entities:
+#     - attack_name: whaling
+#   - slot_was_set:
+#     - attack_name:
+#       - whaling
+#   - action: action_provide_requested_attack_information
+#   - slot_was_set:
+#     - attack_information:
+#       - whaling
+
+- story: interactive_story with request_attack_comparison as unexpected inputs
+  steps:
+  - intent: greet+attack_notification
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_1
+  - intent: request_attack_comparison
+    entities:
+    - attack_name: worm
+    - attack_name: virus
+  - slot_was_set:
+    - attack_name:
+      - worm
+      - virus
+  - action: action_provide_attack_comparison
+  - slot_was_set:
+    - compared_attacks:
+      - worm
+      - virus
+  - action: utter_ask_continue
+  - intent: problem_desc
+    entities:
+    - problem: a lot of requests
+  - slot_was_set:
+    - problem:
+      - a lot of requests
+  - action: symptom_form
+  - slot_was_set:
+    - symptoms_1: a lot of requests
+  - slot_was_set:
+    - requested_slot: symptoms_2
+  - intent: request_attack_comparison
+    entities:
+    - attack_name: malware
+    - attack_name: phishing
+  - slot_was_set:
+    - attack_name:
+      - malware
+      - phishing
+  - action: action_provide_attack_comparison
+  - slot_was_set:
+    - compared_attacks:
+      - malware
+      - phishing
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: utter_affirm
+  - action: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_2
+  - slot_was_set:
+    - symptoms_2: None
+  - slot_was_set:
+    - requested_slot: symptoms_target
+  - slot_was_set:
+    - symptoms_target: null
+  - slot_was_set:
+    - requested_slot: symptoms_target
+  - intent: request_attack_comparison
+    entities:
+    - attack_name: protocol based
+    - attack_name: volumetric
+  - slot_was_set:
+    - attack_name:
+      - protocol based
+      - volumetric
+  - action: action_provide_attack_comparison
+  - slot_was_set:
+    - compared_attacks:
+      - protocol based
+      - volumetric
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: utter_affirm
+  - action: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_target
+  - slot_was_set:
+    - target: computer
+  - slot_was_set:
+    - symptoms_target: computer
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_submit_symptom_form
+  - slot_was_set:
+    - problem:
+      - a lot of requests
+  - slot_was_set:
+    - target: computer
+  - slot_was_set:
+    - symptoms_1: null
+  - slot_was_set:
+    - symptoms_2: null
+  - slot_was_set:
+    - symptoms_target: null
+  - action: action_idattack
+  - slot_was_set:
+    - identified_attack: null
+  - intent: yet_more_information
+  - action: more_info_form
+  - active_loop: more_info_form
+  - slot_was_set:
+    - requested_slot: more_info
+  - slot_was_set:
+    - problem:
+      - strange beep sounds
+  - slot_was_set:
+    - more_info: strange beep sounds
+  - slot_was_set:
+    - requested_slot: new_target
+  - intent: stop
+  - action: utter_ask_continue
+  - intent: stop
+  - action: action_deactivate_loop
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_reset_slots_after_form_interruption
+  - slot_was_set:
+    - symptoms_2: null
+  - slot_was_set:
+    - more_info: null
+  - action: utter_successfully_stopped_form
+
+- story: interactive_story with request_attack_challenges as unexpected inputs
+  steps:
+  - intent: greet+attack_notification
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_1
+  - intent: request_attack_challenges
+    entities:
+    - attack_name: worm
+    - attack_name: virus
+  - slot_was_set:
+    - attack_name:
+      - worm
+      - virus
+  - action: action_provide_attack_challenges
+  - slot_was_set:
+    - attack_challenges:
+      - worm
+      - virus
+  - action: utter_ask_continue
+  - intent: problem_desc
+    entities:
+    - problem: a lot of requests
+  - slot_was_set:
+    - problem:
+      - a lot of requests
+  - action: symptom_form
+  - slot_was_set:
+    - symptoms_1: a lot of requests
+  - slot_was_set:
+    - requested_slot: symptoms_2
+  - intent: request_attack_challenges
+    entities:
+    - attack_name: malware
+    - attack_name: phishing
+  - slot_was_set:
+    - attack_name:
+      - malware
+      - phishing
+  - action: action_provide_attack_challenges
+  - slot_was_set:
+    - attack_challenges:
+      - malware
+      - phishing
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: utter_affirm
+  - action: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_2
+  - slot_was_set:
+    - symptoms_2: None
+  - slot_was_set:
+    - requested_slot: symptoms_target
+  - slot_was_set:
+    - symptoms_target: null
+  - slot_was_set:
+    - requested_slot: symptoms_target
+  - intent: request_attack_challenges
+    entities:
+    - attack_name: protocol based
+    - attack_name: volumetric
+  - slot_was_set:
+    - attack_name:
+      - protocol based
+      - volumetric
+  - action: action_provide_attack_challenges
+  - slot_was_set:
+    - attack_challenges:
+      - protocol based
+      - volumetric
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: utter_affirm
+  - action: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_target
+  - slot_was_set:
+    - target: computer
+  - slot_was_set:
+    - symptoms_target: computer
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_submit_symptom_form
+  - slot_was_set:
+    - problem:
+      - a lot of requests
+  - slot_was_set:
+    - target: computer
+  - slot_was_set:
+    - symptoms_1: null
+  - slot_was_set:
+    - symptoms_2: null
+  - slot_was_set:
+    - symptoms_target: null
+  - action: action_idattack
+  - slot_was_set:
+    - identified_attack: null
+  - intent: yet_more_information
+  - action: more_info_form
+  - active_loop: more_info_form
+  - slot_was_set:
+    - requested_slot: more_info
+  - slot_was_set:
+    - problem:
+      - strange beep sounds
+  - slot_was_set:
+    - more_info: strange beep sounds
+  - slot_was_set:
+    - requested_slot: new_target
+  - intent: stop
+  - action: utter_ask_continue
+  - intent: stop
+  - action: action_deactivate_loop
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_reset_slots_after_form_interruption
+  - slot_was_set:
+    - symptoms_2: null
+  - slot_was_set:
+    - more_info: null
+  - action: utter_successfully_stopped_form
+
+- story: interactive_story with request_attack_impacts as unexpected inputs
+  steps:
+  - intent: greet+attack_notification
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_1
+  - intent: request_attack_impacts
+    entities:
+    - attack_name: worm
+  - slot_was_set:
+    - attack_name:
+      - worm
+  - action: action_provide_attack_impacts
+  - slot_was_set:
+    - attack_impacts:
+      - worm
+  - action: utter_ask_continue
+  - intent: problem_desc
+    entities:
+    - problem: a lot of requests
+  - slot_was_set:
+    - problem:
+      - a lot of requests
+  - action: symptom_form
+  - slot_was_set:
+    - symptoms_1: a lot of requests
+  - slot_was_set:
+    - requested_slot: symptoms_2
+  - intent: request_attack_impacts
+    entities:
+    - attack_name: malware
+    - attack_name: phishing
+  - slot_was_set:
+    - attack_name:
+      - malware
+      - phishing
+  - action: action_provide_attack_impacts
+  - slot_was_set:
+    - attack_impacts:
+      - malware
+      - phishing
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: utter_affirm
+  - action: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_2
+  - slot_was_set:
+    - symptoms_2: None
+  - slot_was_set:
+    - requested_slot: symptoms_target
+  - slot_was_set:
+    - symptoms_target: null
+  - slot_was_set:
+    - requested_slot: symptoms_target
+  - intent: request_attack_impacts
+    entities:
+    - attack_name: protocol based
+    - attack_name: volumetric
+  - slot_was_set:
+    - attack_name:
+      - protocol based
+      - volumetric
+  - action: action_provide_attack_impacts
+  - slot_was_set:
+    - attack_impacts:
+      - protocol based
+      - volumetric
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: utter_affirm
+  - action: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_target
+  - slot_was_set:
+    - target: computer
+  - slot_was_set:
+    - symptoms_target: computer
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_submit_symptom_form
+  - slot_was_set:
+    - problem:
+      - a lot of requests
+  - slot_was_set:
+    - target: computer
+  - slot_was_set:
+    - symptoms_1: null
+  - slot_was_set:
+    - symptoms_2: null
+  - slot_was_set:
+    - symptoms_target: null
+  - action: action_idattack
+  - slot_was_set:
+    - identified_attack: null
+  - intent: yet_more_information
+  - action: more_info_form
+  - active_loop: more_info_form
+  - slot_was_set:
+    - requested_slot: more_info
+  - slot_was_set:
+    - problem:
+      - strange beep sounds
+  - slot_was_set:
+    - more_info: strange beep sounds
+  - slot_was_set:
+    - requested_slot: new_target
+  - intent: stop
+  - action: utter_ask_continue
+  - intent: stop
+  - action: action_deactivate_loop
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_reset_slots_after_form_interruption
+  - slot_was_set:
+    - symptoms_2: null
+  - slot_was_set:
+    - more_info: null
+  - action: utter_successfully_stopped_form
+
+- story: interactive_story with request_attack_symptoms as unexpected inputs
+  steps:
+  - intent: greet+attack_notification
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_1
+  - intent: request_attack_symptoms
+    entities:
+    - attack_name: worm
+  - slot_was_set:
+    - attack_name:
+      - worm
+  - action: action_provide_attack_symptoms
+  - slot_was_set:
+    - attack_symptoms:
+      - worm
+  - action: utter_ask_continue
+  - intent: problem_desc
+    entities:
+    - problem: a lot of requests
+  - slot_was_set:
+    - problem:
+      - a lot of requests
+  - action: symptom_form
+  - slot_was_set:
+    - symptoms_1: a lot of requests
+  - slot_was_set:
+    - requested_slot: symptoms_2
+  - intent: request_attack_symptoms
+    entities:
+    - attack_name: malware
+    - attack_name: phishing
+  - slot_was_set:
+    - attack_name:
+      - malware
+      - phishing
+  - action: action_provide_attack_symptoms
+  - slot_was_set:
+    - attack_symptoms:
+      - malware
+      - phishing
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: utter_affirm
+  - action: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_2
+  - slot_was_set:
+    - symptoms_2: None
+  - slot_was_set:
+    - requested_slot: symptoms_target
+  - slot_was_set:
+    - symptoms_target: null
+  - slot_was_set:
+    - requested_slot: symptoms_target
+  - intent: request_attack_symptoms
+    entities:
+    - attack_name: protocol based
+    - attack_name: volumetric
+  - slot_was_set:
+    - attack_name:
+      - protocol based
+      - volumetric
+  - action: action_provide_attack_symptoms
+  - slot_was_set:
+    - attack_symptoms:
+      - protocol based
+      - volumetric
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: utter_affirm
+  - action: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_target
+  - slot_was_set:
+    - target: computer
+  - slot_was_set:
+    - symptoms_target: computer
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_submit_symptom_form
+  - slot_was_set:
+    - problem:
+      - a lot of requests
+  - slot_was_set:
+    - target: computer
+  - slot_was_set:
+    - symptoms_1: null
+  - slot_was_set:
+    - symptoms_2: null
+  - slot_was_set:
+    - symptoms_target: null
+  - action: action_idattack
+  - slot_was_set:
+    - identified_attack: null
+  - intent: yet_more_information
+  - action: more_info_form
+  - active_loop: more_info_form
+  - slot_was_set:
+    - requested_slot: more_info
+  - slot_was_set:
+    - problem:
+      - strange beep sounds
+  - slot_was_set:
+    - more_info: strange beep sounds
+  - slot_was_set:
+    - requested_slot: new_target
+  - intent: stop
+  - action: utter_ask_continue
+  - intent: stop
+  - action: action_deactivate_loop
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_reset_slots_after_form_interruption
+  - slot_was_set:
+    - symptoms_2: null
+  - slot_was_set:
+    - more_info: null
+  - action: utter_successfully_stopped_form
+
+- story: interactive_story with request_countermeasures as unexpected inputs
+  steps:
+  - intent: greet+attack_notification
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_1
+  - intent: request_countermeasures
+    entities:
+    - attack_name: worm
+  - slot_was_set:
+    - attack_name:
+      - worm
+  - action: action_provide_attack_countermeasures
+  - slot_was_set:
+    - attack_countermeasures:
+      - worm
+  - action: utter_ask_continue
+  - intent: problem_desc
+    entities:
+    - problem: a lot of requests
+  - slot_was_set:
+    - problem:
+      - a lot of requests
+  - action: symptom_form
+  - slot_was_set:
+    - symptoms_1: a lot of requests
+  - slot_was_set:
+    - requested_slot: symptoms_2
+  - intent: request_countermeasures
+    entities:
+    - attack_name: malware
+    - attack_name: phishing
+  - slot_was_set:
+    - attack_name:
+      - malware
+      - phishing
+  - action: action_provide_attack_countermeasures
+  - slot_was_set:
+    - attack_countermeasures:
+      - malware
+      - phishing
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: utter_affirm
+  - action: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_2
+  - slot_was_set:
+    - symptoms_2: None
+  - slot_was_set:
+    - requested_slot: symptoms_target
+  - slot_was_set:
+    - symptoms_target: null
+  - slot_was_set:
+    - requested_slot: symptoms_target
+  - intent: request_countermeasures
+    entities:
+    - attack_name: protocol based
+    - attack_name: volumetric
+  - slot_was_set:
+    - attack_name:
+      - protocol based
+      - volumetric
+  - action: action_provide_attack_countermeasures
+  - slot_was_set:
+    - attack_countermeasures:
+      - protocol based
+      - volumetric
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: utter_affirm
+  - action: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_target
+  - slot_was_set:
+    - target: computer
+  - slot_was_set:
+    - symptoms_target: computer
+  - slot_was_set:
+    - requested_slot: null
+  - active_loop: null
+  - action: action_submit_symptom_form
+  - slot_was_set:
+    - problem:
+      - a lot of requests
+  - slot_was_set:
+    - target: computer
+  - slot_was_set:
+    - symptoms_1: null
+  - slot_was_set:
+    - symptoms_2: null
+  - slot_was_set:
+    - symptoms_target: null
+  - action: action_idattack
+  - slot_was_set:
+    - identified_attack: null
+  - intent: yet_more_information
+  - action: more_info_form
+  - active_loop: more_info_form
+  - slot_was_set:
+    - requested_slot: more_info
+  - slot_was_set:
+    - problem:
+      - strange beep sounds
+  - slot_was_set:
+    - more_info: strange beep sounds
+  - slot_was_set:
+    - requested_slot: new_target
+  - intent: stop
+  - action: utter_ask_continue
+  - intent: deny
+  - action: action_deactivate_loop
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_reset_slots_after_form_interruption
+  - slot_was_set:
+    - symptoms_2: null
+  - slot_was_set:
+    - more_info: null
+  - action: utter_successfully_stopped_form
+
+- story: many unexpected inputs using request_attack_information and request_further_attack_classification
+  steps:
+  - intent: attack_notification
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_1
+  - intent: request_attack_information
+    entities:
+    - attack_name: ransomware
+  - slot_was_set:
+    - attack_name:
+      - ransomware
+  - action: action_provide_requested_attack_information
+  - slot_was_set:
+    - attack_information:
+      - ransomware
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: utter_affirm
+  - action: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_1
+  - intent: request_further_attack_classification
+    entities:
+    - attack_name: phishing
+  - slot_was_set:
+    - attack_name:
+      - phishing
+  - action: action_provide_requested_attack_information
+  - slot_was_set:
+    - further_attack_classification:
+      - standard phishing
+      - spear phishing
+      - whaling
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: utter_affirm
+  - action: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_1
+  - slot_was_set:
+    - problem:
+      - unnatural traffic
+  - slot_was_set:
+    - symptoms_1: unnatural traffic
+  - slot_was_set:
+    - requested_slot: symptoms_2
+  - intent: request_attack_information
+    entities:
+    - attack_name: volumetric
+  - slot_was_set:
+    - attack_name:
+      - volumetric
+  - action: action_provide_requested_attack_information
+  - slot_was_set:
+    - attack_information:
+      - volumetric
+  - action: utter_ask_continue
+  - intent: request_further_attack_classification
+    entities:
+    - attack_type: http flood
+  - slot_was_set:
+    - attack_type:
+      - http flood
+  - action: action_provide_requested_attack_information
+  - slot_was_set:
+    - further_attack_classification: null
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: utter_affirm
+  - action: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_2
+  - slot_was_set:
+    - symptoms_2: None
+  - slot_was_set:
+    - requested_slot: symptoms_target
+  - intent: request_attack_information
+    entities:
+    - attack_name: virus
+  - slot_was_set:
+    - attack_name:
+      - virus
+  - action: action_provide_requested_attack_information
+  - slot_was_set:
+    - attack_information:
+      - virus
+  - action: utter_ask_continue
+  - intent: request_further_attack_classification
+    entities:
+    - attack_name: worm
+  - slot_was_set:
+    - attack_name:
+      - worm
+  - action: action_provide_requested_attack_information
+  - slot_was_set:
+    - further_attack_classification: null
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: utter_affirm
+  - action: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_target
+  - slot_was_set:
+    - symptoms_target: null
+  - slot_was_set:
+    - requested_slot: symptoms_target
+  - intent: stop
+  - action: utter_ask_continue
+  - intent: stop
+  - action: action_deactivate_loop
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_reset_slots_after_form_interruption
+  - slot_was_set:
+    - symptoms_1: null
+  - slot_was_set:
+    - symptoms_2: null
+  - slot_was_set:
+    - more_info: null
+  - action: utter_successfully_stopped_form
+  - intent: attack_notification
+  - action: symptom_form
+  - active_loop: symptom_form
+  - slot_was_set:
+    - requested_slot: symptoms_1
+  - slot_was_set:
+    - problem:
+      - a lot of requests
+  - slot_was_set:
+    - symptoms_1: a lot of requests
+  - slot_was_set:
+    - requested_slot: symptoms_2
+  - slot_was_set:
+    - problem:
+      - many syn packets
+  - slot_was_set:
+    - symptoms_2: many syn packets
+  - slot_was_set:
+    - requested_slot: symptoms_target
+  - intent: stop
+  - action: utter_ask_continue
+  - intent: stop
+  - action: action_deactivate_loop
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_reset_slots_after_form_interruption
+  - slot_was_set:
+    - symptoms_1: null
+  - slot_was_set:
+    - symptoms_2: null
+  - slot_was_set:
+    - more_info: null
+  - action: utter_successfully_stopped_form
+  - intent: yet_more_information
+  - action: more_info_form
+  - active_loop: more_info_form
+  - slot_was_set:
+    - requested_slot: more_info
+  - intent: request_further_attack_classification
+    entities:
+    - attack_name: malware
+  - slot_was_set:
+    - attack_name:
+      - malware
+  - action: action_provide_requested_attack_information
+  - slot_was_set:
+    - further_attack_classification:
+      - virus
+      - worm
+      - ransomware
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: utter_affirm
+  - action: more_info_form
+  - slot_was_set:
+    - requested_slot: more_info
+  - intent: request_attack_information
+    entities:
+    - attack_name: phishing
+  - slot_was_set:
+    - attack_name:
+      - phishing
+  - action: action_provide_requested_attack_information
+  - slot_was_set:
+    - attack_information:
+      - phishing
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: utter_affirm
+  - action: more_info_form
+  - slot_was_set:
+    - requested_slot: more_info
+  - slot_was_set:
+    - problem:
+      - a lot of requests
+  - slot_was_set:
+    - more_info: a lot of requests
+  - slot_was_set:
+    - requested_slot: new_target
+  - intent: request_further_attack_classification
+    entities:
+    - attack_name: application layer
+  - slot_was_set:
+    - attack_name:
+      - application layer
+  - action: action_provide_requested_attack_information
+  - slot_was_set:
+    - further_attack_classification:
+      - http flood
+  - action: utter_ask_continue
+  - intent: request_attack_information
+    entities:
+    - attack_type: http flood
+  - slot_was_set:
+    - attack_type:
+      - http flood
+  - action: action_provide_requested_attack_information
+  - slot_was_set:
+    - attack_information:
+      - http flood
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: utter_affirm
+  - action: more_info_form
+  - slot_was_set:
+    - requested_slot: new_target
+  - intent: stop
+  - action: utter_ask_continue
+  - intent: affirm
+  - action: utter_affirm
+  - action: more_info_form
+  - slot_was_set:
+    - requested_slot: new_target
+  - intent: stop
+  - action: utter_ask_continue
+  - intent: deny
+  - action: action_deactivate_loop
+  - active_loop: null
+  - slot_was_set:
+    - requested_slot: null
+  - action: action_reset_slots_after_form_interruption
+  - slot_was_set:
+    - symptoms_2: null
+  - slot_was_set:
+    - more_info: null
+  - action: utter_successfully_stopped_form

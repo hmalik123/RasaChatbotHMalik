@@ -1,0 +1,104 @@
+{
+    "ddos": {
+        "characteristics": "A distributed denial-of-service (DDoS) attack aims to disrupt or even take out online services and their resources. It is similar to a denial-of-service (DoS) attack with the only difference being how the attack is carried out. DDoS attacks are decentralised, which means that the attack traffic does not come from one single source as it is the case in DoS attacks. Instead, the cyber criminals make use of multiple compromised systems, also known as botnets, with each infected device becoming a bot. Upon instruction, the hacker-controlled botnet then starts sending huge number of requests to the victim's server simultaneously, consuming a significant amount of its resources. The server has then no longer the capacity to react to legitimate traffic, which leads to a denial of service.",
+        "subtypes": {
+            "volumetric": {
+                "characteristics": "Volumetric DDoS attacks, also known as bandwidth consumption attack, appear to be the most common category of Distributed Denial-of-Service attacks. Cyber criminals usually utilize botnets to create sheer volume of traffic to literally flood a website, which then becomes overloaded, thus causing network congestion. As a consequence, legitimate users are prevented from interacting with the website.",
+                "scope": "Volumatric DDoS focus on bandwidth depletion.",
+                "challenges": "Mitigating volume-based DDoS attacks is difficult since they combine reflection/amplification techniques along with botnets.",
+                "specific_attacks": {
+                    "dns amplification": "During a DNS-Amplification attack, the cyber criminal makes use of the weaknesses of the domain name system (DNS) servers. The perpetrator sends small queries in which the IP addresses have been changed to the target's one, to open DNS resolver, which in turn reply with larger DNS responses to the spoofed IP address of the victim. Instructing every bot within a botnet sending similar request, the sheer volume of traffic heading towards the victim's server grows even more significantly. "
+                }
+            },
+            "protocol based": {
+                "characteristics": "Protocol-based DDoS attacks aim to use up both server resources as well as network intermediaries such as firewalls or load balancer. They are therefore also rightly referred to as state-exhaustion attacks. These attacks make use of the vulnerabilities within the network and transport layer (OSI Layer 3 and 4), such as forging protocol requests to deny access to the victim's service.",
+                "scope": "Protocol-based DDoS focus on resource depletion",
+                "challenges": "Mitigating protocol-based DDoS attacks is difficult since they exploit weaknesses of various Internet protocols (e.g. TCP, UDP, etc.).",
+                "specific_attacks": {
+                    "syn flood": "A SYN-Flood attack takes advantages of weaknesses in TCP handshake. To establish a TCP network connection the client sends first SYN packet, which are basically initial request packets, to the target server. The server in turn replies with a SYN/ACK packet to confirm the communication request. This reply must then also be confirmed by the client by sending the ACK packet to the target server. During a SYN-Flood attack, the cyber criminals block the third part of the handshake process. Waiting for the ultimate confirmation of the handshake, which obviously will never arrive, the victim's server remains with many open connections, thus being rendered unavailable by exhausting its resources."
+                }
+            },
+            "application layer": {
+                "characteristics": "Application Layer Attacks exploit weaknesses in the application layer in order to disrupt respectively take out applications, online services or websites.",
+                "scope": "Application layer DDoS require less amount of bandwidth than the other subtypes while still being at least as disruptive.",
+                "challenges": "The challenge of application layer attacks lies in distinguishing legitimate traffic from malicious since spoofing and reflection techniques are not used.",
+                "specific_attacks": {
+                    "http flood": "During a HTTP flood attack cyber criminals typically use botnets to overload the target's server with ressource-intesive HTTP requests, with the goal of exhausting the server's finite resources such that it is no longer capable of responding to legitimate traffic."
+                }
+            }
+        },
+        "challenges": "There exist various challenges regaridng DDoS attacks. Especially protection is really difficult since attacks are increasingly gaining complexity by using various techniques such as IP Spoofing, Botnets, or automated tools for attack generation. ",
+        "impacts": ["Website breakdown: As long as your website is not available it will harm your reputation since other companies will not be able to access it as well. It could also influence the search ranking in a negative way",
+                    "The attack on one server might have a negative impact on several other websites as well.",
+                    "Rising vulnerability of websites: Such attacks may only serve to make the website or server more susceptible to further attacks, such as hacking or data theft, as all resources are dedicated to getting everything back up and running",
+                    "Lost time and money: In a worst-case scenario where backups are not available, companies might end up hiring experts to completely recreate the entire website from the ground up, highlighting security issues for future cyberattacks. Furthermore, in industries such as e-commerce, website downtime would cause a huge loss of revenue"
+        ],
+        "countermeasures" : [
+            "Web Application Firewall (WAP): A WAP is used to stop malicious requests and detect DDoS generation tools.",
+            "Blackhoule Routing: Blackholing is used when your network is part of a larger one. All traffic is redirected to a null route which means that it get discarded from the network."
+        ]
+    },
+    "malware": {
+        "characteristics": "Malicious software, or shortly malware, denotes a generic term that covers all software programs which deliberately cause damage to systems or  other software programs. There exist a broad range of attacking threats trying to sneak into your system, reaching either to your data or core system functionality to derange the ordinary operations.",
+        "subtypes": {
+            "virus": {
+                "characteristics": "A virus is a malicious program which is capable of reproducing itself into other executable programs or documents to either exploit vulnerabilities in the compromised system or cause damage to it.",
+                "scope": "A virus requires a host program which must be actively executed by a user.",
+                "challenges": "Virus: Especially the detection and mitigation of evolutionary or new viruses is extremely difficult."
+            },
+            "worm": {
+                "characteristics": "Worms make use of self-replication to reproduce themselves and infect other not yet compromised systems, where they then stay active for as long as possible. They target entire networks to create large botnets or damage the infected ones.",
+                "scope": "A worm is a stand-alone program which does not need host files or user interaction.",
+                "challenges": "Worm: A great challenge poses the worm's ability to spread quickly and very easily over a network"
+            },
+            "ransomware": {
+                "characteristics": "Ransomware blocks the user from accessing their system or personal files and requests a ransom, usually in cryptocurrency, to regain access.",
+                "scope": "Ransomware require other cyberattacks, such as worms, to spread.",
+                "challenges": "Ransomware: Ransoms are hard to track, as allmost all payments are made in cryptocurrency."
+            }
+        },
+        "challenges": "There exist various challenges regaridng Malware attacks",
+        "impacts": ["Data breaches: Unauthorized access to confidential data. By infiltrating the target’s server, sensitive data can be stolen, which can lead to identity theft, amongst other things.",
+                    "Downtime: Attacks can break downthe company’s network infrastructure which will have severe effects on its operations.",
+                    "General disruption or even blocking of services by taking control of system-critical programs",
+                    "Long-term damage to the company’s data, infrastructure and reputation, leading directly to the loss of customers.",
+                    "Money loss respectively money extortion"
+        ],
+        "countermeasures": [
+            "Anti-virus/malware: Install quality anti-virus resp. anti-malware programs which regularly scans your device. These programs should always be up-to-date to best-possibly reduce the risk of malware attacks.",
+            "Website security scans: They function like anti-virus and anti-malware programs and therefore help website administrators to keep their site secure.",
+            "Data backup: Periodic backups can reduce the costs in case you cannot access the data due to an attack suffered."
+        ]
+    },
+    "phishing": {
+        "characteristics": "Phishing attacks rely on the concept of social engineering. During a phishing attack, the cybercriminals' objective is to induce their targets to reveal precious and personal information such as (company) login credentials, credit card information or business data.  Phishers often spoof links or websites or even exploit vulnerabilities of genuine websites where they do hidden and malicious redirects. In the end, phishing scams either end with cybercriminals financially enriching themselves with stolen information, or the attack served to deploy further malware for future cyberattacks.",
+        "subtypes": {
+            "standard phishing": {
+                "characteristics": "All subtypes of phishing attempt to entice targets to disclose sensitive and valuable data. So too standard phishing.",
+                "scope": "Targeting a large number of users and expecting that only a few will be victimized. Requires only minimal preparatory work from the criminal.",
+                "challenges": "Encouraging users to take steps and protect themselves. Apart from that, phishing techniques are constantly being innovated, which makes them difficult to detect."
+            },
+            "spear phishing": {
+                "characteristics": "All subtypes of phishing attempt to entice targets to disclose sensitive and valuable data. So too spear phishing.",
+                "scope": "Focused attacks on organizations or specific individuals. Additional information must be collected from the criminal in advance.",
+                "challenges": "Encouraging users to take steps and protect themselves. Apart from that, phishing techniques are constantly being innovated, which makes them difficult to detect."
+            },
+            "whaling": {
+                "characteristics": "All subtypes of phishing attempt to entice targets to disclose sensitive and valuable data. So too whaling.",
+                "scope": "Focused attacks on senior or C-level management. Requires maximal preparatory work from the criminal.",
+                "challenges": "Encouraging users to take steps and protect themselves. Apart from that, phishing techniques are constantly being innovated, which makes them difficult to detect."
+            }
+        },
+        "challenges": "There exist various challenges regaridng Phishing attacks. One of the biggest challenges in the security industry is how to get users to take action to protect themselves. Moreover, such attacks have become that sophisticated that there exist already various new attack vectors such as social media (Facebook, Instagram, etc.) or messaging (Skype, MS Teams, Slack).",
+        "impacts": ["Financial damage: In the event of such an attack, on the one hand there are direct costs due to data protection breaches, which amount to approximately 3.86 million dollars, but on the other hand there are also fines to be paid, which are imposed by regulatory institutions.",
+                    "Reputational damage: Company appears unreliable and unsafe to the public which may lead to the loss of customers.",
+                    "Loss of enterprise value: The damage to the business reputation can cause investors to lose confidence and withdraw.",
+                    "Intellectual property theft: The compromise of confidential data, such as trade secrets, research results, or formulas as a direct consequence of a phishing attack can result in wasted research investments and a substantial financial loss.",
+                    "Business disruption occurs when systems must be taken offline until the threat is eliminated."
+        ],
+        "countermeasures":[
+            "Security awareness trainig: creating awareness of this kind of cyberthreat among all employees is the most efficient protection measure. In addition, simulation trainings should be conducted so that the employees are able to detect phishing attacks in real world situations.",
+            "Filters: Implement filters which blocks emails containing suspicious links and attachments"
+        ]
+    }
+}
